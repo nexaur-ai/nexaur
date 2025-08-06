@@ -518,9 +518,18 @@ ALL_PRODUCTS_DATA.forEach(product => {
     // For categories not explicitly matched, they won't appear in these sections
 });
 
-// --- DOM Manipulation to display products ---
+// --- Page Load & On-Scroll Animation Scripts (window.load for things that need all assets) ---
+window.addEventListener('load', () => {
+    const logoContainer = document.querySelector('.logo');
+    const heroSection = document.querySelector('.hero-section');
+    if (logoContainer) { setTimeout(() => { logoContainer.classList.add('animate'); }, 100); } // FASTER
+    if (heroSection) { setTimeout(() => { heroSection.classList.add('animate-in'); }, 100); } // FASTER
+});
+
+
+// --- DOM Manipulation and Event Listeners (wrapped in a single DOMContentLoaded) ---
 document.addEventListener('DOMContentLoaded', () => {
-    const renderProducts = (products, targetGridId, isHorizontalScroll = false) => {
+    const renderProducts = (products, targetGridId) => { // Removed isHorizontalScroll param as it's not used in this function
         const gridElement = document.getElementById(targetGridId);
         if (!gridElement) return;
 
@@ -555,7 +564,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             data-title="${product.name}"
                             data-text="${product.name} - Discover it on Nexaur!"
                             data-url="${productDetailUrl}">
-                        <i class="fas fa-share-alt"></i>
+                        <i class="fas fa-share-alt" aria-hidden="true"></i>
                     </button>
                 </div>
             `;
@@ -563,7 +572,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    renderProducts(productsByCategory.websites, 'websites-grid', true);
+    renderProducts(productsByCategory.websites, 'websites-grid'); // No need for isHorizontalScroll here
     renderProducts(productsByCategory.ai, 'ai-grid');
     renderProducts(productsByCategory.apps, 'apps-grid');
 
@@ -598,16 +607,8 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(`Websites displayed: ${productsByCategory.websites.length}`);
     console.log(`AI Solutions displayed: ${productsByCategory.ai.length}`);
     console.log(`Applications displayed: ${productsByCategory.apps.length}`);
-});
 
-// --- Page Load & On-Scroll Animation Scripts ---
-window.addEventListener('load', () => {
-    const logoContainer = document.querySelector('.logo');
-    const heroSection = document.querySelector('.hero-section');
-    if (logoContainer) { setTimeout(() => { logoContainer.classList.add('animate'); }, 100); } // FASTER
-    if (heroSection) { setTimeout(() => { heroSection.classList.add('animate-in'); }, 100); } // FASTER
-});
-document.addEventListener('DOMContentLoaded', () => {
+    // --- On-Scroll Animation Logic ---
     const scrollElements = document.querySelectorAll('.animate-on-scroll');
     const elementObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -616,71 +617,79 @@ document.addEventListener('DOMContentLoaded', () => {
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.1 }); // Trigger when 10% of the element is visible
     scrollElements.forEach(el => { elementObserver.observe(el); });
-});
 
-// --- Chatbox / Voice Search Logic (Simplified/Stubbed for static HTML) ---
-window.handleStartButtonClick = function() {
+    // --- Chatbox / Voice Search Logic (Simplified/Stubbed for static HTML) ---
     const chatBox = document.getElementById('chatBox');
-    if (chatBox) {
-        if (chatBox.style.display === 'flex') {
-            chatBox.style.display = 'none';
-        } else {
-            chatBox.style.display = 'flex';
-            document.getElementById('chatOpenSound').play().catch(e => console.log('Audio playback blocked:', e));
-        }
-    }
-};
-
-window.closeChat = function() {
-    document.getElementById('chatBox').style.display = 'none';
-};
-
-window.toggleChatMic = function(iconElement) {
-    iconElement.classList.toggle('active');
-    document.getElementById('micToggleSound').play().catch(e => console.log('Audio playback blocked:', e));
-    alert('Voice input is not implemented in this static HTML file.');
-};
-
-document.getElementById('shivayChatInput').addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        document.getElementById('sendChatMsgBtn').click();
-    }
-});
-
-document.getElementById('sendChatMsgBtn').addEventListener('click', function() {
     const chatInput = document.getElementById('shivayChatInput');
     const chatBody = document.getElementById('chatBody');
-    const message = chatInput.value.trim();
+    const sendChatMsgBtn = document.getElementById('sendChatMsgBtn');
+    const mainVoiceSearchBtn = document.getElementById('mainVoiceSearchBtn');
 
-    if (message) {
-        const userMessageDiv = document.createElement('div');
-        userMessageDiv.classList.add('chat-message', 'user');
-        userMessageDiv.innerHTML = `<div class="message-bubble">${message}</div>`;
-        chatBody.appendChild(userMessageDiv);
-        chatInput.value = '';
-        document.getElementById('messageSendSound').play().catch(e => console.log('Audio playback blocked:', e));
-        chatBody.scrollTop = chatBody.scrollHeight; // Scroll to bottom
+    // Global functions (needed due to onclick attributes in HTML)
+    window.handleStartButtonClick = function() {
+        if (chatBox) {
+            const isVisible = chatBox.classList.toggle('visible'); // Toggle 'visible' class
+            if (isVisible) {
+                document.getElementById('chatOpenSound').play().catch(e => console.log('Audio playback blocked:', e));
+            }
+        }
+    };
 
-        // Simulate AI response
-        setTimeout(() => {
-            const aiMessageDiv = document.createElement('div');
-            aiMessageDiv.classList.add('chat-message', 'ai');
-            aiMessageDiv.innerHTML = `<div class="message-bubble">Thank you for your message! As a static HTML file, I can't process it, but I'm here to assist.</div>`;
-            chatBody.appendChild(aiMessageDiv);
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }, 1000);
+    window.closeChat = function() {
+        if (chatBox) {
+            chatBox.classList.remove('visible');
+        }
+    };
+
+    window.toggleChatMic = function(iconElement) {
+        iconElement.classList.toggle('active');
+        document.getElementById('micToggleSound').play().catch(e => console.log('Audio playback blocked:', e));
+        alert('Voice input is not implemented in this static HTML file.');
+    };
+
+    if (chatInput) {
+        chatInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendChatMsgBtn.click();
+            }
+        });
     }
-});
 
-document.getElementById('mainVoiceSearchBtn').addEventListener('click', function() {
-        alert('Voice search is not implemented in this static HTML file.');
-});
-// End Chatbox / Voice Search Stub
+    if (sendChatMsgBtn) {
+        sendChatMsgBtn.addEventListener('click', function() {
+            const message = chatInput.value.trim();
 
-// --- ADD TO CART SCRIPT (Stubbed for static HTML) ---
-document.addEventListener('DOMContentLoaded', () => {
+            if (message) {
+                const userMessageDiv = document.createElement('div');
+                userMessageDiv.classList.add('message', 'user'); // Changed class name to 'message'
+                userMessageDiv.textContent = message; // Using textContent for security/simplicity
+                chatBody.appendChild(userMessageDiv);
+                chatInput.value = '';
+                document.getElementById('messageSendSound').play().catch(e => console.log('Audio playback blocked:', e));
+                chatBody.scrollTop = chatBody.scrollHeight; // Scroll to bottom
+
+                // Simulate AI response
+                setTimeout(() => {
+                    const aiMessageDiv = document.createElement('div');
+                    aiMessageDiv.classList.add('message', 'ai'); // Changed class name to 'message'
+                    aiMessageDiv.textContent = `Thank you for your message! As a static HTML file, I can't process it, but I'm here to assist.`;
+                    chatBody.appendChild(aiMessageDiv);
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                }, 1000);
+            }
+        });
+    }
+
+    if (mainVoiceSearchBtn) {
+        mainVoiceSearchBtn.addEventListener('click', function() {
+            alert('Voice search is not implemented in this static HTML file.');
+        });
+    }
+    // End Chatbox / Voice Search Stub
+
+    // --- ADD TO CART SCRIPT (Stubbed for static HTML) ---
     const flashMessagesContainer = document.getElementById('flashMessagesContainer');
 
     const showFlashMessage = (message, type) => {
@@ -703,9 +712,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     updateCartCount(0); // Initialize cart count to 0
 
-    // Event delegation for Add to Cart buttons
+    // Event delegation for Add to Cart buttons and Share buttons
     document.querySelectorAll('.product-grid').forEach(grid => {
-        grid.addEventListener('click', (event) => {
+        grid.addEventListener('click', async (event) => { // Made async for navigator.share
+            // Handle Add to Cart
             if (event.target.classList.contains('add-to-cart-btn')) {
                 const button = event.target;
                 const productDbKey = button.dataset.productId;
@@ -743,18 +753,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 }, 800); // Simulate network delay
             }
-        });
-    });
-});
-// End ADD TO CART STUB
 
-// --- Universal Share Button Logic (Unchanged as it uses Web Share API / Clipboard API) ---
-document.addEventListener('DOMContentLoaded', () => {
-    const flashMessagesContainer = document.getElementById('flashMessagesContainer');
-
-    // Event delegation for Share buttons
-    document.querySelectorAll('.product-grid').forEach(grid => {
-        grid.addEventListener('click', async (event) => {
+            // Handle Universal Share
             if (event.target.closest('.universal-share-btn')) {
                 const button = event.target.closest('.universal-share-btn');
                 const title = button.dataset.title;
@@ -770,38 +770,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                         console.log('Content shared successfully');
                     } catch (error) {
-                        if (error.name !== 'AbortError') {
+                        if (error.name !== 'AbortError') { // User cancelled share dialog
                             console.error('Error sharing content:', error);
-                            // Show a flash message for error
-                            const errorMessage = document.createElement('div');
-                            errorMessage.classList.add('flash-message', 'danger');
-                            errorMessage.textContent = 'Could not share. Please try again.';
-                            flashMessagesContainer.appendChild(errorMessage);
-                            setTimeout(() => errorMessage.remove(), 5000);
+                            showFlashMessage('Could not share. Please try again.', 'danger');
                         }
                     }
                 } else {
                     // Fallback for browsers that do not support the Web Share API
                     try {
                         await navigator.clipboard.writeText(url);
-                        const copiedMessage = document.createElement('div');
-                        copiedMessage.classList.add('flash-message', 'info');
-                        copiedMessage.textContent = 'Link copied to clipboard!';
-                        flashMessagesContainer.appendChild(copiedMessage);
-                        setTimeout(() => {
-                            copiedMessage.remove();
-                        }, 5000);
+                        showFlashMessage('Link copied to clipboard!', 'info');
                         console.log('URL copied to clipboard:', url);
                     } catch (err) {
                         console.error('Failed to copy to clipboard: ', err);
-                        const copyErrorMessage = document.createElement('div');
-                        copyErrorMessage.classList.add('flash-message', 'danger');
-                        copyErrorMessage.textContent = 'Could not copy link to clipboard. Please copy it manually: ' + url;
-                        flashMessagesContainer.appendChild(copyErrorMessage);
-                        setTimeout(() => copyErrorMessage.remove(), 5000);
+                        showFlashMessage('Could not copy link to clipboard. Please copy it manually: ' + url, 'danger');
                     }
                 }
             }
         });
     });
+    // End ADD TO CART & SHARE STUB
 });
