@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexaur - Your Digital Marketplace (Standalone)</title>
+    <title>Nexaur - Your Digital Marketplace</title>
 
     <!-- SEO Meta Tags -->
     <meta name="description" content="Explore and purchase thousands of cutting-edge websites, AI models, and applications. Nexaur is the premier marketplace for top-tier digital solutions.">
     <meta name="keywords" content="digital marketplace, websites, ai models, applications, templates, code, developer tools">
-    <link rel="stylesheet" href="chat.css">
+    
     <!-- Open Graph / Facebook Meta Tags -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.nexaur.com/">
@@ -172,7 +172,7 @@
             background-size: 400% 400%; /* Make background larger for animation */
             background-attachment: fixed;
             position: relative; 
-            overflow-x: hidden;
+            overflow-x: hidden; /* Prevents horizontal scroll from internal elements */
             /* Adjusted border-top for a more integrated glass feel */
             border-top: 3px solid rgba(255, 255, 255, 0.4); 
             -webkit-font-smoothing: antialiased; 
@@ -283,9 +283,9 @@
             transform: rotate(5deg); /* Subtle rotation on icon hover */
         }
         /* Specific header options icons colors from old inline CSS - retained */
-        .header-option--home i { color: var(--logo-primary-color); } /* Used existing logo primary color */
-        .header-option--profile i { color: var(--logo-primary-color); } /* Used existing logo primary color */
-        .header-option--cart i { color: var(--logo-primary-color); } /* Used existing logo primary color */
+        .header-option--home i { color: var(--logo-primary-color); }
+        .header-option--profile i { color: var(--logo-primary-color); }
+        .header-option--cart i { color: var(--logo-primary-color); }
 
         .cart-icon-wrapper { position: relative; }
         .cart-count {
@@ -1554,13 +1554,102 @@
         }
 
         /* ============================================= */
-        /* 7. RESPONSIVE OVERRIDES                       */
+        /* 7. RESPONSIVE OVERRIDES (MOBILE-FIRST PRINCIPLES) */
         /* ============================================= */
+
+        /* AI Character Model and Button positioning/sizing - fixed with CSS for consistency */
+        #ai-character {
+            position: fixed;
+            bottom: 50px;
+            right: 10px;
+            width: 250px; /* Default desktop size */
+            height: 250px; /* Default desktop size */
+            z-index: 1000; /* Below button, so button is clickable */
+            pointer-events: none; /* Prevents it from blocking clicks on elements behind it */
+        }
+        
+        .start-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1001; /* Above AI character */
+            background: linear-gradient(135deg, #a7c7f9, #7b62e4, #f1799d); /* Specific gradient from image */
+            color: var(--color-white);
+            border-radius: var(--radius-pill);
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            font-weight: var(--fw-medium);
+            border: none;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .start-button i {
+            font-size: 1.3rem;
+        }
+
+        .start-button:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Chatbox adjustments for responsiveness - NEW / MODIFIED */
+        .chatbox {
+            width: clamp(300px, 90vw, 350px); /* Adjust max-width for smaller screens */
+            height: clamp(400px, 80vh, 500px); /* Adjust max-height for smaller screens */
+            right: 20px;
+            bottom: 20px;
+            top: auto; /* Ensure it stays at the bottom */
+            left: auto; /* Ensure it stays to the right */
+            transform: none; /* Reset any previous transforms */
+        }
+
+        /* Desktop specific styles - now wrapped for clarity */
+        @media (min-width: 1025px) {
+            /* Ensure desktop elements are not affected by mobile styles */
+            .header-main-content {
+                position: static;
+                width: auto;
+                height: auto;
+                flex-direction: row;
+                align-items: center;
+                padding: 0;
+                background: transparent;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+                box-shadow: none;
+                border-left: none;
+            }
+            .header-search {
+                margin-inline: auto; /* Center on desktop */
+            }
+            .header-nav-actions {
+                flex-direction: row;
+                width: auto;
+            }
+            .header-option {
+                flex-direction: column;
+                width: auto;
+            }
+            .menu-toggle { display: none; }
+        }
+
+
+        /* Tablet / Laptop small screens */
         @media (max-width: 1024px) {
             .menu-toggle { display: block; }
+            header .container {
+                /* On tablet, logo is left, search is centered, nav actions hide to hamburger */
+                justify-content: space-between;
+                gap: var(--space-2);
+            }
             .header-main-content {
                 position: fixed;
-                top: 0; right: -100%; 
+                top: 0; right: -100%; /* Hidden by default */
                 width: 320px;
                 height: 100vh;
                 flex-direction: column;
@@ -1569,21 +1658,25 @@
                 background: rgba(255,255,255, 0.8);
                 backdrop-filter: blur(24px);
                 -webkit-backdrop-filter: blur(24px);
-                box-shadow: -10px 0 30px rgba(0,0,0,0.1), var(--shadow-glass-inset); /* Keep inner shadow */
+                box-shadow: -10px 0 30px rgba(0,0,0,0.1), var(--shadow-glass-inset);
                 transition: right var(--transition-smooth);
                 gap: var(--space-4);
-                border-left: 1px solid var(--border-glass); /* Added border to mobile menu */
+                border-left: 1px solid var(--border-glass);
             }
             .header-main-content.active { right: 0; }
-            .header-search { max-width: 100%; order: 1; }
+            .header-search {
+                max-width: 100%; /* Search takes full width of the sidebar */
+                margin-inline: 0; /* Align left in sidebar */
+                order: 1; /* Position above nav actions in sidebar */
+            }
             .header-nav-actions {
-                flex-direction: column;
+                flex-direction: column; /* Stack nav items vertically in sidebar */
                 align-items: flex-start;
                 width: 100%;
-                order: 2;
+                order: 2; /* Position below search in sidebar */
             }
             .header-option {
-                flex-direction: row;
+                flex-direction: row; /* Icons and text side-by-side in mobile menu */
                 width: 100%;
                 padding: var(--space-2);
                 gap: var(--space-2);
@@ -1598,7 +1691,7 @@
                 min-height: auto;
             }
             .hero-section .container {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr; /* Single column layout for hero on smaller screens */
                 text-align: center;
             }
             .hero-content {
@@ -1616,23 +1709,66 @@
                 margin-bottom: var(--space-3);
             }
             .hero-cta-buttons { justify-content: center; }
+
+            /* Product Grid Adjustments for Tablets */
+            .product-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Allow smaller cards */
+                gap: 20px; /* Reduce gap */
+            }
+            .product-grid.horizontal-scroll .product-card-outer {
+                width: 280px; /* Smaller fixed width for horizontal scroll cards */
+            }
+            .scroll-button {
+                width: 38px; /* Smaller scroll buttons */
+                height: 38px;
+                font-size: 1rem;
+            }
+            .scroll-button-prev { left: -18px; }
+            .scroll-button-next { right: -18px; }
         }
 
-        /* 
-          =============================================================================
-          ==> FIXED: MERGED AND COMPLETED RESPONSIVE STYLES FOR SMALLER SCREENS <==
-          =============================================================================
-        */
+        /* Mobile Phone specific styles */
         @media (max-width: 768px) {
-            .hero-character-image { max-width: 80%; }
-            .floating-element.icon-4, .floating-element.shape-1 { display: none; }
-            
-            /* --- Responsive Login Card --- */
+            header .container {
+                height: 56px; /* Slightly smaller header height */
+                padding: 0 var(--space-2); /* Adjust horizontal padding */
+            }
+            .logo { /* Shrink logo on smaller phones */
+                gap: 8px;
+            }
+            .logo .logo-symbol {
+                width: 35px;
+            }
+            .logo .logo-text {
+                font-size: 1.8rem;
+                letter-spacing: -1px;
+            }
+            .main-search-bar {
+                height: 40px; /* Slightly smaller search bar height */
+                padding: 0 var(--space-1) 0 var(--space-2); /* Adjust padding */
+            }
+            .main-search-bar input {
+                font-size: 0.9rem; /* Smaller font in search input */
+            }
+            .main-search-bar .icon-button {
+                font-size: 1.1rem; /* Smaller icons in search bar */
+            }
+
+            /* Hero section visual elements adjustments */
+            .hero-character-image { max-width: 90%; } /* Adjust image size */
+            /* Hide more floating elements to reduce clutter on smaller screens */
+            .floating-element.icon-1, .floating-element.icon-2, .floating-element.icon-3 {
+                width: 40px; height: 40px; font-size: 1.2rem; /* Shrink floating icons */
+                filter: blur(8px); /* Less prominent blur */
+            }
+            .floating-element.icon-4, .floating-element.icon-5, .floating-element.shape-1, .floating-element.shape-2 { display: none; }
+
+            /* Login Card */
             .login-card {
                 padding: 2rem 1.5rem;
             }
 
-            /* --- Responsive Footer --- */
+            /* Footer responsiveness */
             .footer-content {
                 flex-direction: column; /* Stack columns vertically */
                 text-align: center;
@@ -1655,81 +1791,162 @@
                 margin-inline: auto; /* Center the form */
             }
 
-            /* Start button adjustments (from previous inline style) */
+            /* AI Character and button for 768px */
+            #ai-character {
+                width: 180px; /* Smaller size for mobile */
+                height: 180px;
+                bottom: 60px; /* Adjust if the button size changed */
+                right: 5px; /* Closer to edge */
+                scale: 0.4 0.4 0.4; /* Adjusted scale if necessary for model viewer */
+            }
             .start-button {
                 bottom: 15px;
                 right: 15px;
                 padding: 10px 18px; /* Slightly smaller padding */
                 font-size: 0.9rem; /* Smaller font size */
             }
-            #ai-character { /* From previous inline style */
-                bottom: 50px; /* Adjust if the button size changed */
-                right: 10px;
-                width: 200px; /* Smaller size for mobile */
-                height: 200px;
-            }
         }
 
-        /* Chatbox adjustments for responsiveness - NEW / MODIFIED */
-        .chatbox {
-            width: clamp(300px, 90vw, 350px); /* Adjust max-width for smaller screens */
-            height: clamp(400px, 80vh, 500px); /* Adjust max-height for smaller screens */
-            right: 20px;
-            bottom: 20px;
-            top: auto; /* Ensure it stays at the bottom */
-            left: auto; /* Ensure it stays to the right */
-            transform: none; /* Reset any previous transforms */
-        }
-
+        /* Very Small Mobile Phone (e.g., iPhone SE) */
         @media (max-width: 480px) {
-            .chatbox {
-                width: calc(100vw - 40px); /* Nearly full width */
-                height: calc(100vh - 80px); /* Nearly full height, leaves space for status bar/bottom area */
-                right: 20px;
-                bottom: 20px;
-                /* Optional: if you want it to appear more central, but fixed bottom right is typical */
-                /* left: 50%; */
-                /* transform: translateX(-50%); */
+            header .container {
+                padding: 0 var(--space-1); /* Even less horizontal padding */
             }
-            .chatbox-body {
-                padding: 10px; /* Slightly reduced padding */
+            .logo {
+                gap: 5px; /* Reduce gap even more */
             }
-            .chatbox-input-area {
-                padding: 10px; /* Slightly reduced padding */
+            .logo .logo-symbol {
+                width: 30px; /* Even smaller logo */
             }
-            .chatbox-input-area input {
-                padding: 8px 12px; /* Smaller input field */
-                font-size: 0.9rem;
+            .logo .logo-text {
+                font-size: 1.5rem; /* Smaller text */
             }
-            .chatbox-input-area button {
-                width: 36px; /* Smaller button */
-                height: 36px;
-                font-size: 0.9rem;
+            .main-search-bar {
+                height: 36px; /* Even smaller search bar */
+                padding: 0 var(--space-1);
             }
-            .chatbox-header {
-                font-size: 1rem; /* Smaller header font */
-                padding: 12px;
-            }
+            .main-search-bar input { font-size: 0.8rem; }
+            .main-search-bar .icon-button { font-size: 0.9rem; }
 
-            /* Further adjust AI character and start button to avoid overlap on small screens */
+            .header-main-content {
+                width: 280px; /* Even narrower sidebar */
+                padding: 5rem var(--space-2) var(--space-2);
+            }
+            .header-option {
+                padding: var(--space-1);
+                gap: var(--space-1);
+            }
+            .header-option .option-text { font-size: 0.8rem; }
+            .header-option i { font-size: 1.1rem; }
+
+            .hero-headline { font-size: clamp(2rem, 7vw, 3rem); } /* Clamp to prevent too small/large text */
+            .hero-subheadline { font-size: var(--fs-base); }
+            .hero-cta-buttons {
+                flex-direction: column; /* Stack buttons vertically */
+                gap: var(--space-2);
+            }
+            .btn {
+                width: 90%; /* Buttons take more width */
+                max-width: 300px; /* Cap button width */
+                padding: var(--space-2) var(--space-3);
+                font-size: 0.95rem;
+            }
+            .hero-visual { padding: 0; }
+            .hero-character-image { max-width: 100%; }
+
+            .product-grid {
+                grid-template-columns: 1fr; /* Force single column for very small screens */
+                gap: 15px;
+            }
+            .product-grid.horizontal-scroll .product-card-outer {
+                width: 85vw; /* Make horizontal cards almost full width */
+                max-width: 300px;
+            }
+            .product-image { height: 160px; } /* Slightly smaller product image height */
+            .card-body { padding: 1rem; }
+            .product-name-heading { font-size: 1.1rem; }
+            .long-description-summary { font-size: 0.8em; }
+            .price { font-size: 1.4rem; }
+            .card-actions { padding: 8px; }
+            .card-actions .add-to-cart-btn { padding: 8px; font-size: 0.8rem; }
+
+            /* AI Character and Button for 480px */
             #ai-character {
-                width: 150px; /* Even smaller */
-                height: 150px;
-                bottom: 60px; /* Move up slightly to clear start button */
-                right: 5px; /* Closer to edge */
-                scale: 0.4 0.4 0.4; /* Adjust scale if necessary for model viewer */
+                width: 120px; /* Even smaller */
+                height: 120px;
+                bottom: 55px; /* Move up slightly to clear start button */
+                right: 0px; /* Closer to edge */
+                scale: 0.3 0.3 0.3; /* Further adjusted scale */
             }
-
             .start-button {
-                bottom: 5px; /* Closer to bottom edge */
-                right: 5px; /* Closer to right edge */
+                bottom: 10px; /* Closer to bottom edge */
+                right: 10px; /* Closer to right edge */
                 padding: 8px 15px; /* Even smaller padding */
                 font-size: 0.8rem; /* Even smaller font size */
+                gap: 5px;
+            }
+            .start-button i { font-size: 1rem; }
+
+            /* Chatbox adjustments for 480px */
+            .chatbox {
+                width: calc(100vw - 30px); /* Tighter fit for smallest screens */
+                height: calc(100vh - 60px);
+                right: 15px;
+                bottom: 15px;
+            }
+            .chatbox-header { padding: 10px; font-size: 0.9rem; }
+            .chatbox-input-area { padding: 8px; }
+            .chatbox-input-area input { padding: 6px 10px; font-size: 0.85rem; }
+            .chatbox-input-area button { width: 32px; height: 32px; font-size: 0.85rem; }
+            .chatbox-input-area .mic-icon { font-size: 1rem; }
+
+            /* Marquee section adjustments */
+            .marquee-item {
+                padding: 0.5rem 1rem; /* Smaller padding */
+                font-size: 0.9rem; /* Smaller font */
+                margin: 0 0.8rem; /* Reduce margin between items */
             }
         }
+        
+        /* Very very small screens (e.g., width < 375px) - for extreme cases */
+        @media (max-width: 375px) {
+            .logo .logo-text { /* Hide logo text on extremely small screens to save space */
+                display: none;
+            }
+            .logo .logo-symbol {
+                width: 25px; /* Tiny logo symbol */
+            }
+            .header-main-content {
+                width: 240px; /* Even narrower sidebar */
+            }
+            
+            .hero-headline { font-size: clamp(1.6rem, 5vw, 2.2rem); }
+            .hero-subheadline { font-size: 0.8rem; }
+            .btn {
+                padding: 10px 15px;
+                font-size: 0.85rem;
+            }
 
-        /* ============================================================================= */
-
+            /* Hide AI Character entirely to prioritize core content */
+            #ai-character {
+                display: none;
+            }
+            .start-button {
+                bottom: 5px; /* Even closer to the edge */
+                right: 5px;
+                padding: 6px 10px; /* Minimal padding */
+                font-size: 0.7rem; /* Tiny button font */
+                gap: 3px;
+            }
+            .start-button i { font-size: 0.9rem; }
+            
+            .chatbox {
+                width: calc(100vw - 20px); /* Almost full width with minimal margin */
+                height: calc(100vh - 40px);
+                right: 10px;
+                bottom: 10px;
+            }
+        }
 
         /* --- FORM VALIDATION STYLES (from previous inline style) --- */
         .form-group.error input {
@@ -1966,19 +2183,23 @@
                     </form>
                     <div id="voiceStatus" style="position: absolute; top: 100%; left: 0; font-size: 0.8em; color: #777; padding-top: 4px;"></div>
                 </div>
-                <a href="#" class="header-option header-option--home"><i class="fa-solid fa-house"></i><span class="option-text">Home</span></a>
+                <!-- Corrected: Header navigation links are now correctly grouped inside header-nav-actions -->
+                <div class="header-nav-actions">
+                    <a href="#" class="header-option header-option--home"><i class="fa-solid fa-house"></i><span class="option-text">Home</span></a>
 
-                <a href="#" class="header-option header-option--profile">
-                    <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&s=40" alt="User Profile" class="user-avatar">
-                    <span class="option-text">Login</span>
-                </a>
-                
-                <a href="#" class="header-option header-option--cart" onclick="alert('Cart page is not implemented in this static HTML file.'); return false;">
-                    <div class="cart-icon-wrapper">
-                        <i class="fa-solid fa-cart-shopping"></i>
+                    <a href="#" class="header-option header-option--profile">
+                        <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&s=40" alt="User Profile" class="user-avatar">
+                        <span class="option-text">Login</span>
+                    </a>
+                    
+                    <a href="#" class="header-option header-option--cart" onclick="alert('Cart page is not implemented in this static HTML file.'); return false;">
+                        <div class="cart-icon-wrapper">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <!-- <span class="cart-count">0</span> Uncomment and update with JS for a numerical badge -->
+                        </div>
                         <span class="option-text">Cart</span>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
             <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false"><span class="hamburger-bar"></span><span class="hamburger-bar"></span><span class="hamburger-bar"></span></button>
         </div>
