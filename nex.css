@@ -1,7 +1,7 @@
 /*
     ======================================
     NEXUAR - MASTER STYLESHEET
-    VERSION: 5.8 (Enhanced Glass UI)
+    VERSION: 6.0 (Enhanced Glass UI & Responsive)
     ======================================
 */
 /* ============================================= */
@@ -13,7 +13,7 @@
     --color-primary-end: #f1799d;
     --color-accent-start: #ec8958;
     --color-accent-end: #ef476f;
-    --color-text: #f6bebe;
+    --color-text: #f6bebe; /* This color variable seems unused or intended for light text on dark bg */
     --color-text-dark: #1a1a1a;
     --color-text-muted: rgba(255, 255, 255, 0.7);
     --color-text-hero: rgba(255, 255, 255, 0.9);
@@ -35,9 +35,10 @@
     --border-light: #dfe6e9; /* Added for login form (for non-glass elements) */
     
     /* Icon Colors */
-    --icon-home: #2c2b2b;
-    --icon-profile: #3c3d3d;
-    --icon-cart: #ffffff;
+    /* Changed to use logo primary color for consistency as per image */
+    --icon-home: var(--logo-primary-color);
+    --icon-profile: var(--logo-primary-color);
+    --icon-cart: var(--logo-primary-color);
 
     /* Typography */
     --font-primary: 'Poppins', sans-serif;
@@ -72,7 +73,7 @@
     /* Adding a subtle inner shadow for a "light refraction" effect */
     --shadow-glass-inset: inset 0 0 0 1px rgba(255, 255, 255, 0.3); /* Subtle inner highlight */
 
-    /* Logo-specific colors & transitions (from previous inline style block) */
+    /* Logo-specific colors & transitions */
     --logo-primary-color: #041765;
     --logo-accent-color: #ea6a21;
     --transition-fast: all 0.2s ease-in-out;
@@ -135,13 +136,12 @@ body {
     font-family: var(--font-primary);
     font-size: var(--fs-base);
     line-height: var(--lh-base);
-    color: var(--color-text);
+    color: var(--color-text); /* This will be overridden by more specific rules for dark text */
     background-image: var(--gradient-primary);
     background-size: 400% 400%; /* Make background larger for animation */
     background-attachment: fixed;
     position: relative; 
-    overflow-x: hidden;
-    /* Adjusted border-top for a more integrated glass feel */
+    overflow-x: hidden; /* Prevents horizontal scroll from internal elements */
     border-top: 3px solid rgba(255, 255, 255, 0.4); 
     -webkit-font-smoothing: antialiased; 
     -moz-osx-font-smoothing: grayscale;
@@ -163,6 +163,12 @@ h2 {
     margin-bottom: var(--space-5);
     color: var(--color-white);
 }
+h2::after { /* Common underline for H2s */
+    content: ''; position: absolute; bottom: -10px; left: 50%;
+    transform: translateX(-50%); width: 80px; height: 4px;
+    background: var(--gradient-accent); border-radius: var(--radius-sm);
+}
+
 a { text-decoration: none; color: var(--color-accent-start); }
 a:hover { color: var(--color-text-dark); }
 
@@ -172,14 +178,14 @@ a:hover { color: var(--color-text-dark); }
 
 /* --- 5.1. Component: Header & Navigation --- */
 header {
-    background: var(--bg-glass); /* Use glass variable */
+    background: var(--bg-glass);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), var(--shadow-glass-inset); /* Added inner shadow */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), var(--shadow-glass-inset);
     padding-block: var(--space-1);
     position: sticky; top: 0;
     z-index: 1000;
-    border-bottom: 1px solid var(--border-glass); /* Added glass border */
+    border-bottom: 1px solid var(--border-glass);
 }
 header .container {
     display: flex;
@@ -189,25 +195,25 @@ header .container {
     height: 64px;
 }
 
-/* Base Logo Container (from original inline style block) */
 .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
 .logo .logo-symbol { width: 50px; height: auto; }
 .logo .logo-text { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 2.2rem; color: var(--logo-primary-color); text-transform: lowercase; letter-spacing: -1.5px; display: flex; }
 
-/* Logo Animation Styles (from original inline style block) */
+/* Logo Animation Styles */
 .logo-symbol .pixel, .logo-symbol .cart-part, .logo-text .char { opacity: 0; }
 .logo-symbol .pixel { transform: translateY(15px); }
 .logo-symbol .cart-handle { transform: translateY(-15px); }
 .logo-symbol .cart-wheel { transform: translateX(-15px) rotate(-180deg); }
 .logo-text .char { transform: translateY(20px) scale(0.8); display: inline-block; }
-.logo.animate .pixel, .logo.animate .cart-part { animation-duration: 0.5s; animation-fill-mode: forwards; animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.277); }
+
+.logo.animate .pixel, .logo.animate .cart-part { animation-duration: 0.3s; animation-fill-mode: forwards; animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.277); }
 .logo.animate .pixel { animation-name: popIn; }
 .logo.animate .cart-wheel { animation-name: rollIn; }
 .logo.animate .cart-handle { animation-name: slideIn; }
-.logo.animate .logo-text .char { animation-name: slideUpIn; animation-duration: 0.6s; animation-fill-mode: forwards; animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.277); animation-delay: calc(0.8s + (var(--char-index) * 0.07s)); }
-.logo.animate .pixel-1 { animation-delay: 0.0s; } .logo.animate .pixel-2 { animation-delay: 0.05s; } .logo.animate .pixel-3 { animation-delay: 0.1s; } .logo.animate .pixel-4 { animation-delay: 0.15s; } .logo.animate .pixel-5 { animation-delay: 0.2s; }
-.logo.animate .pixel-special { animation-delay: 0.25s; filter: drop-shadow(0 0 5px var(--logo-accent-color)); }
-.logo.animate .cart-wheel-1 { animation-delay: 0.4s; } .logo.animate .cart-wheel-2 { animation-delay: 0.45s; } .cart-handle { animation-delay: 0.5s; } /* cart-handle's delay was a separate rule */
+.logo.animate .logo-text .char { animation-name: slideUpIn; animation-duration: 0.4s; animation-fill-mode: forwards; animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.277); animation-delay: calc(0.2s + (var(--char-index) * 0.04s)); }
+.logo.animate .pixel-1 { animation-delay: 0.0s; } .logo.animate .pixel-2 { animation-delay: 0.02s; } .logo.animate .pixel-3 { animation-delay: 0.04s; } .logo.animate .pixel-4 { animation-delay: 0.06s; } .logo.animate .pixel-5 { animation-delay: 0.08s; }
+.logo.animate .pixel-special { animation-delay: 0.1s; filter: drop-shadow(0 0 5px var(--logo-accent-color)); }
+.logo.animate .cart-wheel-1 { animation-delay: 0.15s; } .logo.animate .cart-wheel-2 { animation-delay: 0.18s; } .cart-handle { animation-delay: 0.2s; }
 
 
 .header-main-content {
@@ -228,15 +234,14 @@ header .container {
     gap: 4px;
     padding: var(--space-1);
     border-radius: var(--radius-sm);
-    color: var(--color-text-dark);
+    color: var(--color-text-dark); /* Default for text */
     transition: transform var(--transition-fast), background-color var(--transition-fast);
 }
-/* Enhanced header option hover animation */
 .header-option:hover,
 .header-option:focus-visible {
-    background-color: rgba(0,0,0,0.08); /* Slightly more opaque on hover */
-    transform: scale(1.1) translateY(-2px); /* Slight lift and scale */
-    animation: pop 0.3s ease-out; /* Add a subtle pop animation */
+    background-color: rgba(0,0,0,0.08);
+    transform: scale(1.1) translateY(-2px);
+    animation: pop 0.3s ease-out;
 }
 .header-option .option-text {
     font-size: 0.75rem;
@@ -244,18 +249,17 @@ header .container {
 }
 .header-option i {
     font-size: 1.4rem;
-    transition: transform 0.2s ease-in-out; /* Add transition for icon */
+    transition: transform 0.2s ease-in-out;
+    color: var(--logo-primary-color); /* Apply primary logo color to all header icons */
 }
 .header-option:hover i {
-    transform: rotate(5deg); /* Subtle rotation on icon hover */
+    transform: rotate(5deg);
 }
-.header-option--home i { color: var(--icon-home); }
-.header-option--profile i { color: var(--icon-profile); }
-.header-option--cart i { color: var(--icon-cart); }
+
 .cart-icon-wrapper { position: relative; }
 .cart-count {
     position: absolute; top: -4px; right: -8px;
-    background-color: var(--color-accent-end);
+    background-color: var(--logo-accent-color);
     color: var(--color-white);
     border-radius: var(--radius-circle);
     font-size: 0.65rem;
@@ -265,7 +269,15 @@ header .container {
     display: grid;
     place-content: center;
     border: 2px solid var(--color-white);
-    animation: bounceIn 0.5s ease-out; /* Animation for when cart count updates */
+    animation: bounceIn 0.5s ease-out;
+}
+.user-avatar { 
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--color-white);
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
 
 /* --- 5.2. Component: Header Search Bar --- */
@@ -280,20 +292,20 @@ header .container {
     flex-grow: 1;
     display: flex;
     align-items: center;
-    background: var(--bg-glass-light); /* Use glass-light variable */
-    backdrop-filter: blur(8px); /* Added blur for search bar */
+    background: var(--bg-glass-light);
+    backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-radius: var(--radius-pill);
     padding: 0 var(--space-2) 0 var(--space-3);
-    box-shadow: var(--shadow-sm), var(--shadow-glass-inset); /* Added inner shadow */
-    border: 1px solid var(--border-glass); /* Added glass border */
+    box-shadow: var(--shadow-sm), var(--shadow-glass-inset);
+    border: 1px solid var(--border-glass);
     height: 48px;
     transition: box-shadow var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast);
 }
 .main-search-bar:focus-within {
-     box-shadow: 0 5px 20px rgba(0,0,0,0.15), var(--shadow-glass-inset); /* Maintain inner shadow on focus */
-     transform: scale(1.01); /* Subtle scale on focus */
-     border-color: rgba(255, 255, 255, 0.7); /* Brighter border on focus */
+     box-shadow: 0 5px 20px rgba(0,0,0,0.15), var(--shadow-glass-inset);
+     transform: scale(1.01);
+     border-color: rgba(255, 255, 255, 0.7);
 }
 .main-search-bar .search-icon-left {
     color: #5f6368;
@@ -333,11 +345,11 @@ header .container {
 .main-search-bar .icon-button:hover,
 .main-search-bar .icon-button:focus-visible {
     background-color: rgba(0, 0, 0, 0.05);
-    transform: scale(1.1); /* Pop effect on icon buttons */
+    transform: scale(1.1);
 }
 .main-search-bar .clear-button {
-    visibility: hidden; /* Controlled by JS, but default hidden */
-    opacity: 0; /* Controlled by JS, but default hidden */
+    visibility: hidden;
+    opacity: 0;
     transition: opacity 0.2s ease;
 }
 .main-search-bar input:not(:placeholder-shown) + .clear-button {
@@ -362,10 +374,9 @@ header .container {
     width: 100%;
     margin-inline: auto;
     display: grid;
-    /* Initial state for slide-in animation */
     opacity: 0;
     transform: translateY(20px);
-    animation: fadeInSlideUp 0.8s 0.2s ease-out forwards;
+    animation: fadeInSlideUp 0.6s 0.1s ease-out forwards;
 }
 .hero-section .container {
     display: grid;
@@ -376,13 +387,13 @@ header .container {
     z-index: 2;
 }
 
-/* Hero section specific animations (from original inline style block) */
-.hero-content > *, .hero-visual > * { opacity: 0; transition: opacity 0.8s ease, transform 0.8s ease; } /* This rule needed to be here for animation targets */
+/* Hero section specific animations */
+.hero-content > *, .hero-visual > * { opacity: 0; transition: opacity 0.6s ease, transform 0.6s ease; }
 .hero-section.animate-in .hero-content > *, .hero-section.animate-in .hero-visual > * { opacity: 1; transform: translateY(0) scale(1); }
-.hero-headline { transform: translateY(20px); transition-delay: 1.0s !important; }
-.hero-subheadline { transform: translateY(20px); transition-delay: 1.2s !important; }
-.hero-cta-buttons { transform: translateY(20px); transition-delay: 1.4s !important; }
-.hero-character-image { transform: scale(0.9); transition-delay: 1.6s !important; }
+.hero-headline { transform: translateY(20px); transition-delay: 0.2s !important; }
+.hero-subheadline { transform: translateY(20px); transition-delay: 0.3s !important; }
+.hero-cta-buttons { transform: translateY(20px); transition-delay: 0.4s !important; }
+.hero-character-image { transform: scale(0.9); transition-delay: 0.5s !important; }
 
 .hero-background-video {
     position: absolute;
@@ -395,11 +406,10 @@ header .container {
     height: auto;
     z-index: -1; 
     object-fit: cover;
-    pointer-events: none; /* Prevents video from capturing mouse events */
+    pointer-events: none;
 }
 .hero-content {
     padding-right: var(--space-4);
-    /* animation already defined on .hero-section for overall fade-in */
 }
 .hero-headline {
     font-size: var(--fs-h1);
@@ -409,8 +419,7 @@ header .container {
     text-shadow: 0px 4px 20px rgba(0,0,0,0.5); 
     margin-bottom: var(--space-4);
     text-align: left;
-    /* Add subtle text animation on load */
-    animation: textAppear 1s ease-out backwards;
+    animation: textAppear 0.6s ease-out backwards;
 }
 .hero-subheadline {
     font-size: var(--fs-lg);
@@ -418,14 +427,14 @@ header .container {
     line-height: var(--lh-base);
     max-width: 45ch;
     text-shadow: 0px 2px 10px rgba(0,0,0,0.5);
-    animation: textAppear 1s 0.3s ease-out backwards; /* Delayed animation */
+    animation: textAppear 0.6s 0.1s ease-out backwards;
 }
 .hero-cta-buttons {
     display: flex;
     gap: var(--space-3);
     margin-top: var(--space-4);
     align-items: center;
-    animation: fadeInSlideUp 0.8s 0.5s ease-out backwards; /* Delayed animation */
+    animation: fadeInSlideUp 0.6s 0.2s ease-out backwards;
 }
 .btn {
     display: inline-flex;
@@ -439,8 +448,8 @@ header .container {
     transition: var(--transition-smooth);
     text-align: center;
     text-decoration: none;
-    position: relative; /* For shine effect */
-    overflow: hidden; /* For shine effect */
+    position: relative;
+    overflow: hidden;
     z-index: 1;
 }
 .btn-primary {
@@ -452,36 +461,34 @@ header .container {
     transform: translateY(-4px) scale(1.03);
     box-shadow: 0 8px 25px rgba(110, 31, 31, 0.35);
     filter: brightness(1.1);
-    animation: pulseScale 0.4s ease-out; /* Add subtle pulse */
+    animation: pulseScale 0.4s ease-out;
 }
-/* New :active state for primary button */
 .btn-primary:active {
-    transform: translateY(0px) scale(0.98); /* Push slightly down and shrink */
-    filter: brightness(0.9); /* Slightly dim */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Smaller shadow */
-    transition: transform 0.1s ease-out, filter 0.1s ease-out, box-shadow 0.1s ease-out; /* Quick transition */
+    transform: translateY(0px) scale(0.98);
+    filter: brightness(0.9);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s ease-out, filter 0.1s ease-out, box-shadow 0.1s ease-out;
 }
 
 .btn-secondary {
     color: var(--color-white);
-    background: rgba(255, 255, 255, 0.15); /* Slightly more opaque for better visibility */
-    border: 1px solid var(--border-glass); /* Use glass border */
-    backdrop-filter: blur(5px); /* Added subtle blur for secondary buttons */
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid var(--border-glass);
+    backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    box-shadow: var(--shadow-glass-inset); /* Added inner shadow */
+    box-shadow: var(--shadow-glass-inset);
 }
 .btn-secondary:hover, .btn-secondary:focus-visible {
-    background: rgba(255, 255, 255, 0.25); /* More opaque on hover */
-    border-color: rgba(255, 255, 255, 0.7); /* Brighter border on hover */
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.7);
     transform: translateY(-2px);
     animation: pop 0.3s ease-out;
 }
-/* New :active state for secondary button */
 .btn-secondary:active {
-    background: rgba(255, 255, 255, 0.3); /* Even more opaque on click */
-    border-color: rgba(255, 255, 255, 0.8); /* Brighter border on click */
-    transform: translateY(0px) scale(0.98); /* Press slightly down */
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1); /* Inset shadow for pressed feel */
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.8);
+    transform: translateY(0px) scale(0.98);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: background 0.1s ease-out, border-color 0.1s ease-out, transform 0.1s ease-out, box-shadow 0.1s ease-out;
 }
 .btn-secondary i {
@@ -492,11 +499,10 @@ header .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    animation: fadeIn 1s 0.4s ease-out backwards;
+    animation: fadeIn 0.8s 0.3s ease-out backwards;
     padding-left: var(--space-3);
 }
-/* .hero-character-image styles are duplicated, use the one with transition-delay and other values below. */
-/* .hero-character-image {
+.hero-character-image {
     position: relative;
     max-width: 100%;
     height: auto;
@@ -506,14 +512,14 @@ header .container {
 }
 .hero-character-image:hover {
     transform: scale(1.02) translateY(-5px); 
-} */
+}
 .floating-element {
     position: absolute;
-    background: var(--bg-glass-light); /* Use glass-light variable */
+    background: var(--bg-glass-light);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--border-glass); /* Use glass border */
-    box-shadow: var(--shadow-md), var(--shadow-glass-inset); /* Added inner shadow */
+    border: 1px solid var(--border-glass);
+    box-shadow: var(--shadow-md), var(--shadow-glass-inset);
     border-radius: var(--radius-circle);
     display: grid;
     place-content: center;
@@ -531,56 +537,217 @@ header .container {
 
 /* --- 5.4. Component: Product Card --- */
 .product-grid-section { padding: var(--space-4) 0; }
-.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-4); margin-top: var(--space-2); }
-.product-card {
-    background-color: var(--bg-card); /* Use glass card variable */
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: var(--space-2); }
+
+.product-card-outer { /* Outer container for consistent sizing and hover */
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.product-card-content-link { /* The main clickable area of the card */
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    cursor: pointer;
+}
+
+.product-card-outer:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+.product-card-outer:hover .product-name-heading {
+    color: var(--logo-accent-color);
+}
+
+.product-card { /* Main glassmorphism styles apply here */
+    background-color: var(--bg-card);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--border-glass); /* Use glass border */
+    border: 1px solid var(--border-glass);
     border-radius: var(--radius-md);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: var(--shadow-md), var(--shadow-glass-inset); /* Added inner shadow */
+    box-shadow: var(--shadow-md), var(--shadow-glass-inset);
     transition: var(--transition-smooth);
-    animation: fadeInSlideUp 0.6s ease-out backwards; /* Initial animation */
+    animation: fadeInSlideUp 0.5s ease-out backwards;
+    flex-grow: 1;
 }
 /* Individual card delays */
-.product-card:nth-child(1) { animation-delay: 0.1s; }
-.product-card:nth-child(2) { animation-delay: 0.2s; }
-.product-card:nth-child(3) { animation-delay: 0.3s; }
-.product-card:nth-child(4) { animation-delay: 0.4s; }
-.product-card:nth-child(5) { animation-delay: 0.5s; }
-.product-card:nth-child(6) { animation-delay: 0.6s; }
+.product-card:nth-child(1) { animation-delay: 0.05s; }
+.product-card:nth-child(2) { animation-delay: 0.1s; }
+.product-card:nth-child(3) { animation-delay: 0.15s; }
+.product-card:nth-child(4) { animation-delay: 0.2s; }
+.product-card:nth-child(5) { animation-delay: 0.25s; }
+.product-card:nth-child(6) { animation-delay: 0.3s; }
 
 .product-card:hover, .product-card:focus-within {
-    transform: translateY(-10px) scale(1.02); /* Slight scale on hover */
-    box-shadow: var(--shadow-lg), var(--shadow-glass-inset); /* Maintain inner shadow on hover */
-    border-color: rgba(255, 255, 255, 0.7); /* Brighter border on hover */
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: var(--shadow-lg), var(--shadow-glass-inset);
+    border-color: rgba(255, 255, 255, 0.7);
 }
-.product-card .card-body { padding: var(--space-3); display: flex; flex-direction: column; flex-grow: 1; }
-.product-card .card-body h3 { color: var(--color-white); font-size: 1.5rem; line-height: 1.3; font-weight: var(--fw-medium); text-shadow: 1px 1px 3px rgba(0,0,0,0.1); }
-.product-card .card-body .description { color: var(--color-text-hero); margin-block: var(--space-3); flex-grow: 1; }
-.product-card .card-body .price { font-size: 1.8rem; font-weight: var(--fw-bold); color: var(--color-white); margin-bottom: var(--space-3); }
-.add-to-cart-btn {
-    display: inline-block; padding: 0.9rem var(--space-4); border: none; border-radius: var(--radius-pill);
-    cursor: pointer; font-weight: var(--fw-medium); transition: var(--transition-fast); text-align: center;
-    color: var(--color-white); background: var(--gradient-accent);
-    box-shadow: 0 4px 15px rgba(110, 31, 31, 0.2); 
-    position: relative; overflow: hidden; z-index: 1;
+
+.product-card-header { /* Category header within product cards */
+    height: 40px;
+    border-top-left-radius: 11px;
+    border-top-right-radius: 11px;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    font-weight: 600;
+    color: white;
+    text-transform: capitalize;
+    font-size: 0.9em;
+    letter-spacing: 0.5px;
 }
-.add-to-cart-btn:hover, .add-to-cart-btn:focus-visible {
+
+.product-image {
+    width: 100%;
+    height: 200px; /* Fixed height for consistent card appearance */
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.card-body {
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.product-name-heading {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--color-text-dark); /* This should be overridden for text on glass cards */
+    line-height: 1.3;
+}
+
+.long-description-summary {
+    font-size: 0.9em;
+    color: var(--color-text-hero); /* Adjusted for readability on glass card */
+    margin-bottom: 0.5rem;
+    flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    min-height: 3em;
+    line-height: 1.5em;
+}
+
+.price {
+    font-size: 1.8rem; 
+    font-weight: var(--fw-bold); 
+    color: var(--color-white); 
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.card-actions { /* Action buttons area (outside the main card link) */
+    padding: 15px;
+    border-top: 1px solid #eee;
+    background-color: #f8f9fa;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-actions .add-to-cart-btn {
+    width: 100%;
+    padding: 12px 5px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: var(--transition-medium);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-white);
+    color: var(--logo-primary-color);
+}
+
+.card-actions .add-to-cart-btn:hover {
+    background-color: var(--logo-primary-color);
+    color: var(--color-white);
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(110, 31, 31, 0.3);
-    filter: brightness(1.1);
-    animation: pulseScale 0.4s ease-out; /* Add subtle pulse */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    border-color: var(--logo-primary-color);
 }
-/* New :active state for add-to-cart button */
-.add-to-cart-btn:active {
-    transform: translateY(0px) scale(0.98);
-    filter: brightness(0.9);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.1s ease-out, filter 0.1s ease-out, box-shadow 0.1s ease-out;
+
+.card-actions .add-to-cart-btn.added {
+    background-color: #28a745;
+    color: white;
+    pointer-events: none;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.277);
+    animation: buttonAdded 0.6s ease-out forwards;
+}
+
+.card-actions .add-to-cart-btn.adding {
+    background-color: #3498db;
+    color: white;
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.4);
+    transform: scale(1.02);
+}
+
+/* Universal Share Button Styles */
+.share-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    padding-bottom: 15px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #eee;
+}
+
+.universal-share-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #4A90E2;
+    color: white;
+    font-size: 1.5rem;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    outline: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.universal-share-btn:hover {
+    background-color: #357ABD;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.35);
+}
+
+.universal-share-btn i {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 15px rgba(255, 255, 255, 0.4);
 }
 
 
@@ -589,41 +756,41 @@ header .container {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
-    margin-bottom: var(--space-3); /* Space between sizes and price */
+    margin-bottom: var(--space-3);
 }
 
 .size-option {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    min-width: 44px; /* Minimum touch target size */
+    min-width: 44px;
     height: 44px;
     padding: 0 var(--space-1);
-    border: 2px solid var(--border-glass); /* Use glass border */
-    background-color: var(--bg-glass-light); /* Use glass-light background */
-    backdrop-filter: blur(5px); /* Added blur for size options */
+    border: 2px solid var(--border-glass);
+    background-color: var(--bg-glass-light);
+    backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     color: var(--color-white);
     border-radius: var(--radius-sm);
     font-weight: var(--fw-medium);
     cursor: pointer;
     transition: var(--transition-fast);
-    box-shadow: var(--shadow-glass-inset); /* Added inner shadow */
+    box-shadow: var(--shadow-glass-inset);
 }
 
 .size-option:hover {
-    background-color: rgba(255, 255, 255, 0.3); /* More opaque on hover */
-    border-color: rgba(255, 255, 255, 0.7); /* Brighter border on hover */
-    transform: translateY(-2px); /* Subtle lift */
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.7);
+    transform: translateY(-2px);
 }
 
 .size-option.active {
     background: var(--gradient-accent);
-    border-color: transparent; /* Remove border when active */
+    border-color: transparent;
     color: var(--color-white);
     transform: scale(1.05);
-    box-shadow: var(--shadow-sm); /* Use a standard shadow for active gradient */
-    animation: pop 0.3s ease-out; /* Pop effect when active */
+    box-shadow: var(--shadow-sm);
+    animation: pop 0.3s ease-out;
 }
 
 .size-option:focus-visible {
@@ -638,16 +805,17 @@ header .container {
 */
 
 /* --- 5.5. Component: Login Page --- */
-.body-login {
+.body-login { /* For a standalone login page, or a container that acts like one */
     background-image: linear-gradient(110deg, #9cbce9 0%, #e6a7c3 100%);
-    background-size: 400% 400%; /* For background animation */
+    background-size: 400% 400%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: row; 
     padding: var(--space-2);
     color: var(--color-text-dark);
-    animation: gradientMove 15s ease infinite; /* Apply background animation */
+    animation: gradientMove 15s ease infinite;
+    min-height: 100vh;
 }
 
 .login-container {
@@ -656,40 +824,32 @@ header .container {
 }
 
 .login-card {
-    background: var(--bg-glass); /* Use glass variable */
+    background: var(--bg-glass);
     backdrop-filter: blur(15px); 
     -webkit-backdrop-filter: blur(15px); 
     border-radius: var(--radius-md);
-    border: 1px solid var(--border-glass); /* Use glass border */
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15), var(--shadow-glass-inset); /* Added inner shadow */
+    border: 1px solid var(--border-glass);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15), var(--shadow-glass-inset);
     padding: 2.5rem 3rem;
     text-align: center;
-    /* Animation for the card itself */
     animation: fadeInScale 0.6s ease-out backwards;
 }
 
-/*
-   ===================================================================
-   ==>   BIG LOGO UPDATE: Increased the logo and text size         <==
-   ===================================================================
-*/
-.body-login .logo {
+.body-login .logo { /* Logo within login context */
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 2.5rem; /* More space for the big logo */
-    gap: 15px; /* More space between icon and text */
+    margin-bottom: 2.5rem;
+    gap: 15px;
 }
 .body-login .logo .logo-symbol {
-    width: 65px; /* Significantly bigger icon */
-    /* Animation for the logo symbol */
+    width: 65px;
     animation: rotateIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 .body-login .logo .logo-text {
-    font-size: 2.8rem; /* Significantly bigger text */
+    font-size: 2.8rem;
     display: flex; 
 }
-/* =================================================================== */
 
 /* Logo Text Animation for Login/Signup Pages */
 .body-login .logo .logo-text .char {
@@ -716,7 +876,7 @@ header .container {
     animation: fadeIn 0.8s 0.6s ease-out backwards;
 }
 .login-card h2::after {
-    display: none;
+    display: none; /* Override default h2 underline for login forms */
 }
 
 .login-card .subtitle {
@@ -750,14 +910,14 @@ header .container {
     width: 100%;
     padding: 12px 16px;
     border-radius: var(--radius-sm);
-    background-color: var(--bg-glass-light); /* Use glass-light background */
-    border: 1px solid var(--border-glass); /* Use glass border */
+    background-color: var(--bg-glass-light);
+    border: 1px solid var(--border-glass);
     font-size: 1rem;
     color: var(--color-text-dark); 
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    box-shadow: var(--shadow-glass-inset); /* Added inner shadow */
+    box-shadow: var(--shadow-glass-inset);
 }
 .form-group input::placeholder {
     color: #6c757d;
@@ -765,9 +925,9 @@ header .container {
 
 .form-group input:focus {
     outline: none;
-    background-color: rgba(255, 255, 255, 0.4); /* Slightly more opaque on focus */
-    border-color: rgba(255, 255, 255, 0.8); /* Brighter border on focus */
-    box-shadow: 0 0 0 3px rgba(239, 71, 111, 0.2), var(--shadow-glass-inset); /* Maintain inner shadow on focus */
+    background-color: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 0 3px rgba(239, 71, 111, 0.2), var(--shadow-glass-inset);
 }
 
 .form-options {
@@ -800,7 +960,7 @@ a.forgot-password:hover {
     transition: var(--transition-smooth);
     margin-top: 0.5rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    position: relative; overflow: hidden; z-index: 1; /* For shine effect */
+    position: relative; overflow: hidden; z-index: 1;
 }
 
 .btn-login:hover {
@@ -809,7 +969,6 @@ a.forgot-password:hover {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     animation: pulseScale 0.4s ease-out;
 }
-/* New :active state for login button */
 .btn-login:active {
     transform: translateY(0px) scale(0.98);
     filter: brightness(0.9);
@@ -831,7 +990,7 @@ a.forgot-password:hover {
 .divider::before, .divider::after {
     content: '';
     flex: 1;
-    border-bottom: 1px solid var(--border-glass); /* Use glass border */
+    border-bottom: 1px solid var(--border-glass);
 }
 
 .divider:not(:empty)::before { margin-right: .5em; }
@@ -854,28 +1013,27 @@ a.forgot-password:hover {
     font-weight: var(--fw-medium);
     cursor: pointer;
     transition: var(--transition-fast);
-    background-color: var(--bg-glass-light); /* Use glass-light background */
-    border: 1px solid var(--border-glass); /* Use glass border */
-    backdrop-filter: blur(5px); /* Added blur for social buttons */
+    background-color: var(--bg-glass-light);
+    border: 1px solid var(--border-glass);
+    backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     color: var(--color-text-dark);
     position: relative;
     overflow: hidden;
-    box-shadow: var(--shadow-glass-inset); /* Added inner shadow */
+    box-shadow: var(--shadow-glass-inset);
 }
 
 .btn-social:hover {
     transform: translateY(-2px);
-    background-color: rgba(255, 255, 255, 0.3); /* More opaque on hover */
-    border-color: rgba(255, 255, 255, 0.7); /* Brighter border on hover */
-    box-shadow: var(--shadow-sm), var(--shadow-glass-inset); /* Enhance shadow on hover */
-    animation: pulseScale 0.4s ease-out; /* Add subtle pulse */
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.7);
+    box-shadow: var(--shadow-sm), var(--shadow-glass-inset);
+    animation: pulseScale 0.4s ease-out;
 }
-/* New :active state for social buttons */
 .btn-social:active {
     transform: translateY(0px) scale(0.98);
-    background-color: rgba(255, 255, 255, 0.15); /* Slightly more opaque on click */
-    box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1); /* Subtle inset shadow */
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.1s ease-out, background-color 0.1s ease-out, box-shadow 0.1s ease-out;
 }
 
@@ -899,7 +1057,7 @@ a.forgot-password:hover {
 
 .signup-link a:hover {
     text-decoration: underline;
-    animation: textPulse 0.3s ease-out; /* Subtle pulse on link hover */
+    animation: textPulse 0.3s ease-out;
 }
 
 /*
@@ -918,26 +1076,26 @@ a.forgot-password:hover {
 /* --- 5.6. Component: FIXED FOOTER (Multi-Column) --- */
 footer {
     background: var(--gradient-footer);
-    background-size: 400% 400%; /* For background animation */
-    padding: var(--space-5) 0 var(--space-3); /* More padding on top */
-    margin-top: auto; /* Pushes footer to the bottom */
-    color: var(--color-text-dark); /* Using dark text for readability on light gradient */
-    flex-shrink: 0; /* Prevents footer from shrinking */
+    background-size: 400% 400%;
+    padding: var(--space-5) 0 var(--space-3);
+    margin-top: auto;
+    color: var(--color-text-dark);
+    flex-shrink: 0;
     font-size: var(--fs-sm);
-    animation: gradientMove 15s ease infinite reverse; /* Apply background animation, reversed */
+    animation: gradientMove 15s ease infinite reverse;
 }
 
 .footer-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: var(--space-4); /* Consistent spacing between columns */
+    gap: var(--space-4);
     margin-bottom: var(--space-4);
 }
 
 .footer-col {
     flex: 1;
-    min-width: 220px; /* Prevents columns from getting too narrow before wrapping */
+    min-width: 220px;
 }
 
 .footer-col h3 {
@@ -947,14 +1105,12 @@ footer {
     margin-bottom: var(--space-3);
     position: relative;
     padding-bottom: var(--space-1);
-    /* Add a subtle animation to footer headings */
-    animation: slideInFromLeft 0.7s ease-out backwards;
+    animation: slideInFromLeft 0.5s ease-out backwards;
 }
-.footer-col:nth-child(2) h3 { animation-delay: 0.1s; }
-.footer-col:nth-child(3) h3 { animation-delay: 0.2s; }
-.footer-col:nth-child(4) h3 { animation-delay: 0.3s; }
+.footer-col:nth-child(2) h3 { animation-delay: 0.05s; }
+.footer-col:nth-child(3) h3 { animation-delay: 0.1s; }
+.footer-col:nth-child(4) h3 { animation-delay: 0.15s; }
 
-/* Decorative underline for footer headings */
 .footer-col h3::after {
     content: '';
     position: absolute;
@@ -963,14 +1119,14 @@ footer {
     width: 40px;
     height: 2px;
     background: var(--gradient-accent);
-    animation: underlineGrow 1s ease-out forwards; /* Underline animation */
+    animation: underlineGrow 1s ease-out forwards;
 }
 
 .footer-col p {
     line-height: var(--lh-base);
     opacity: 0.9;
-    animation: fadeIn 0.8s ease-out backwards;
-    animation-delay: 0.4s;
+    animation: fadeIn 0.6s ease-out backwards;
+    animation-delay: 0.2s;
 }
 
 .footer-col ul {
@@ -982,19 +1138,19 @@ footer {
     margin-bottom: var(--space-2);
     display: flex;
     align-items: flex-start;
-    animation: fadeInSlideUp 0.7s ease-out backwards;
+    animation: fadeInSlideUp 0.5s ease-out backwards;
 }
-.footer-col ul li:nth-child(1) { animation-delay: 0.5s; }
-.footer-col ul li:nth-child(2) { animation-delay: 0.6s; }
-.footer-col ul li:nth-child(3) { animation-delay: 0.7s; }
-.footer-col ul li:nth-child(4) { animation-delay: 0.8s; }
+.footer-col ul li:nth-child(1) { animation-delay: 0.25s; }
+.footer-col ul li:nth-child(2) { animation-delay: 0.3s; }
+.footer-col ul li:nth-child(3) { animation-delay: 0.35s; }
+.footer-col ul li:nth-child(4) { animation-delay: 0.4s; }
 
 
 .footer-col ul li i {
     margin-right: var(--space-2);
     color: var(--color-accent-end);
     font-size: 1.1em;
-    padding-top: 4px; /* Better vertical alignment */
+    padding-top: 4px;
 }
 
 .footer-col a {
@@ -1005,8 +1161,8 @@ footer {
 
 .footer-col a:hover {
     color: var(--color-accent-end);
-    padding-left: 5px; /* Slight indent on hover */
-    animation: textPulse 0.3s ease-out; /* Subtle pulse on link hover */
+    padding-left: 5px;
+    animation: textPulse 0.3s ease-out;
 }
 
 /* Social Links styling */
@@ -1016,25 +1172,25 @@ footer {
     align-items: center;
     width: 40px;
     height: 40px;
-    background-color: rgba(0, 0, 0, 0.08); /* Retain original light background */
+    background-color: rgba(0, 0, 0, 0.08);
     margin: 0 var(--space-1) var(--space-1) 0;
     border-radius: var(--radius-circle);
     color: var(--color-text-dark);
     font-size: 1rem;
     transition: var(--transition-smooth);
-    animation: popIn 0.5s ease-out backwards; /* Pop in animation for social icons */
+    animation: popIn 0.4s ease-out backwards;
 }
-.social-links a:nth-child(1) { animation-delay: 0.6s; }
-.social-links a:nth-child(2) { animation-delay: 0.7s; }
-.social-links a:nth-child(3) { animation-delay: 0.8s; }
-.social-links a:nth-child(4) { animation-delay: 0.9s; }
+.social-links a:nth-child(1) { animation-delay: 0.2s; }
+.social-links a:nth-child(2) { animation-delay: 0.25s; }
+.social-links a:nth-child(3) { animation-delay: 0.3s; }
+.social-links a:nth-child(4) { animation-delay: 0.35s; }
 
 .social-links a:hover {
     background: var(--gradient-accent);
     color: var(--color-white);
-    transform: translateY(-4px) scale(1.1); /* Lift and scale */
+    transform: translateY(-4px) scale(1.1);
     box-shadow: var(--shadow-sm);
-    animation: pulseScale 0.4s ease-out; /* Subtle pulse */
+    animation: pulseScale 0.4s ease-out;
 }
 
 /* Newsletter Form styling */
@@ -1044,29 +1200,29 @@ footer {
     border-radius: var(--radius-pill);
     overflow: hidden;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    animation: slideInFromRight 0.7s 0.5s ease-out backwards;
+    animation: slideInFromRight 0.5s 0.2s ease-out backwards;
 }
 .newsletter-form input {
     flex-grow: 1;
     padding: var(--space-2);
-    border: 1px solid var(--border-glass); /* Use glass border */
-    background-color: var(--bg-glass); /* Use glass variable */
+    border: 1px solid var(--border-glass);
+    background-color: var(--bg-glass);
     color: var(--color-text-dark);
     outline: none;
     border-right: none;
     min-width: 0;
     transition: all var(--transition-fast);
-    backdrop-filter: blur(8px); /* Added blur for input */
+    backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    box-shadow: var(--shadow-glass-inset); /* Added inner shadow */
+    box-shadow: var(--shadow-glass-inset);
 }
 .newsletter-form input::placeholder {
     color: var(--color-text-dark);
     opacity: 0.7;
 }
 .newsletter-form input:focus {
-    background-color: rgba(255, 255, 255, 0.4); /* More opaque on focus */
-    border-color: rgba(255, 255, 255, 0.8); /* Brighter border on focus */
+    background-color: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.8);
 }
 .newsletter-form button {
     padding: 0 var(--space-3);
@@ -1079,7 +1235,7 @@ footer {
 }
 .newsletter-form button:hover {
     filter: brightness(1.1);
-    transform: translateY(-2px); /* Subtle lift */
+    transform: translateY(-2px);
     animation: pulseScale 0.4s ease-out;
 }
 
@@ -1087,10 +1243,10 @@ footer {
 .footer-bottom {
     text-align: center;
     padding-top: var(--space-3);
-    border-top: 1px solid var(--border-glass); /* Use glass border */
+    border-top: 1px solid var(--border-glass);
     font-size: var(--fs-sm);
     opacity: 0.8;
-    animation: fadeIn 0.8s 1s ease-out backwards;
+    animation: fadeIn 0.8s 0.5s ease-out backwards;
 }
 
 /*
@@ -1137,7 +1293,8 @@ iframe {
     right: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Prevents video from stretching/distorting */
+    object-fit: cover;
+    pointer-events: none;
 }
 .background-video {
     position: absolute;
@@ -1154,11 +1311,6 @@ iframe {
 /* ============================================= */
 /* 6. INTERACTIVITY & ANIMATIONS                 */
 /* ============================================= */
-h2::after {
-    content: ''; position: absolute; bottom: -10px; left: 50%;
-    transform: translateX(-50%); width: 80px; height: 4px;
-    background: var(--gradient-accent); border-radius: var(--radius-sm);
-}
 
 /* Original float animation */
 @keyframes float {
@@ -1195,37 +1347,32 @@ h2::after {
     }
 }
 
-/* Specific Logo Keyframe Animations (from original inline style block) */
+/* Specific Logo Keyframe Animations */
 @keyframes popIn { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 @keyframes rollIn { from { transform: translateX(-15px) rotate(-180deg); opacity: 0; } to { transform: translateX(0) rotate(0); opacity: 1; } }
 @keyframes slideIn { from { transform: translateY(-15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 @keyframes slideUpIn { to { opacity: 1; transform: translateY(0) scale(1); } }
 
 
-/* NEW ANIMATIONS (from the new provided CSS block) */
-
-/* Subtle background gradient movement */
+/* NEW ANIMATIONS */
 @keyframes gradientMove {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
-/* Small pop effect for active states or clicks */
 @keyframes pop {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
     100% { transform: scale(1); }
 }
 
-/* Subtle pulse scaling for hover effects */
 @keyframes pulseScale {
     0% { transform: scale(1); }
     50% { transform: scale(1.02); }
     100% { transform: scale(1); }
 }
 
-/* Fade in with a slight scale up */
 @keyframes fadeInScale {
     from {
         opacity: 0;
@@ -1237,7 +1384,6 @@ h2::after {
     }
 }
 
-/* Rotate and scale in for a dramatic entrance */
 @keyframes rotateIn {
     from {
         opacity: 0;
@@ -1249,7 +1395,6 @@ h2::after {
     }
 }
 
-/* Text elements appearing with a slight slide from left */
 @keyframes textAppear {
     from {
         opacity: 0;
@@ -1261,20 +1406,11 @@ h2::after {
     }
 }
 
-/* Elements popping into view with a slight overshoot */
-@keyframes popIn {
-    0% { opacity: 0; transform: scale(0.7); }
-    80% { opacity: 1; transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-
-/* Underline growing animation */
 @keyframes underlineGrow {
     from { width: 0; }
     to { width: 40px; }
 }
 
-/* Elements sliding in from the left */
 @keyframes slideInFromLeft {
     from {
         opacity: 0;
@@ -1286,7 +1422,6 @@ h2::after {
     }
 }
 
-/* Elements sliding in from the right */
 @keyframes slideInFromRight {
     from {
         opacity: 0;
@@ -1298,27 +1433,23 @@ h2::after {
     }
 }
 
-/* Subtle text pulse for interactive elements */
 @keyframes textPulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.02); }
     100% { transform: scale(1); }
 }
 
-/* Spinner rotation */
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-/* Bounce in for cart count */
 @keyframes bounceIn {
     0% { transform: scale(0.5); opacity: 0; }
     70% { transform: scale(1.2); opacity: 1; }
     100% { transform: scale(1); }
 }
 
-/* Keyframes for animations that were specific to the original inline style block */
 @keyframes pulseGlow { 0% { box-shadow: 0 0 5px #ea6a21, 0 0 10px #ea6a21; } 50% { box-shadow: 0 0 20px #ea6a21, 0 0 30px #ea6a21; } 100% { box-shadow: 0 0 5px #ea6a21, 0 0 10px #ea6a21; } }
 @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @keyframes scroll-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
@@ -1335,13 +1466,100 @@ h2::after {
 }
 
 /* ============================================= */
-/* 7. RESPONSIVE OVERRIDES                       */
+/* 7. RESPONSIVE OVERRIDES (MOBILE-FIRST PRINCIPLES) */
 /* ============================================= */
+
+/* AI Character Model and Button positioning/sizing - fixed with CSS for consistency */
+#ai-character {
+    position: fixed;
+    bottom: 50px;
+    right: 10px;
+    width: 250px; /* Default desktop size */
+    height: 250px; /* Default desktop size */
+    z-index: 1000; /* Below button, so button is clickable */
+    pointer-events: none; /* Prevents it from blocking clicks on elements behind it */
+}
+
+.start-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1001; /* Above AI character */
+    background: linear-gradient(135deg, #a7c7f9, #7b62e4, #f1799d); /* Specific gradient from image */
+    color: var(--color-white);
+    border-radius: var(--radius-pill);
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    font-weight: var(--fw-medium);
+    border: none;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.start-button i {
+    font-size: 1.3rem;
+}
+
+.start-button:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+
+/* Chatbox adjustments for responsiveness */
+.chatbox {
+    width: clamp(300px, 90vw, 350px);
+    height: clamp(400px, 80vh, 500px);
+    right: 20px;
+    bottom: 20px;
+    top: auto;
+    left: auto;
+    transform: none;
+}
+
+/* Desktop specific styles - ensure elements are not affected by mobile styles */
+@media (min-width: 1025px) {
+    .header-main-content {
+        position: static;
+        width: auto;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+        padding: 0;
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        box-shadow: none;
+        border-left: none;
+    }
+    .header-search {
+        margin-inline: auto; /* Center on desktop */
+    }
+    .header-nav-actions {
+        flex-direction: row;
+        width: auto;
+    }
+    .header-option {
+        flex-direction: column;
+        width: auto;
+    }
+    .menu-toggle { display: none; }
+}
+
+
+/* Tablet / Laptop small screens (769px to 1024px) */
 @media (max-width: 1024px) {
     .menu-toggle { display: block; }
+    header .container {
+        justify-content: space-between;
+        gap: var(--space-2);
+    }
     .header-main-content {
         position: fixed;
-        top: 0; right: -100%; 
+        top: 0; right: -100%; /* Hidden by default */
         width: 320px;
         height: 100vh;
         flex-direction: column;
@@ -1350,21 +1568,25 @@ h2::after {
         background: rgba(255,255,255, 0.8);
         backdrop-filter: blur(24px);
         -webkit-backdrop-filter: blur(24px);
-        box-shadow: -10px 0 30px rgba(0,0,0,0.1), var(--shadow-glass-inset); /* Keep inner shadow */
+        box-shadow: -10px 0 30px rgba(0,0,0,0.1), var(--shadow-glass-inset);
         transition: right var(--transition-smooth);
         gap: var(--space-4);
-        border-left: 1px solid var(--border-glass); /* Added border to mobile menu */
+        border-left: 1px solid var(--border-glass);
     }
     .header-main-content.active { right: 0; }
-    .header-search { max-width: 100%; order: 1; }
+    .header-search {
+        max-width: 100%; /* Search takes full width of the sidebar */
+        margin-inline: 0; /* Align left in sidebar */
+        order: 1; /* Position above nav actions in sidebar */
+    }
     .header-nav-actions {
-        flex-direction: column;
+        flex-direction: column; /* Stack nav items vertically in sidebar */
         align-items: flex-start;
         width: 100%;
-        order: 2;
+        order: 2; /* Position below search in sidebar */
     }
     .header-option {
-        flex-direction: row;
+        flex-direction: row; /* Icons and text side-by-side in mobile menu */
         width: 100%;
         padding: var(--space-2);
         gap: var(--space-2);
@@ -1379,7 +1601,7 @@ h2::after {
         min-height: auto;
     }
     .hero-section .container {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Single column layout for hero on smaller screens */
         text-align: center;
     }
     .hero-content {
@@ -1397,65 +1619,247 @@ h2::after {
         margin-bottom: var(--space-3);
     }
     .hero-cta-buttons { justify-content: center; }
+
+    /* Product Grid Adjustments for Tablets */
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Allow smaller cards */
+        gap: 20px; /* Reduce gap */
+    }
+    .product-grid.horizontal-scroll .product-card-outer {
+        width: 280px; /* Smaller fixed width for horizontal scroll cards */
+    }
+    .scroll-button {
+        width: 38px; /* Smaller scroll buttons */
+        height: 38px;
+        font-size: 1rem;
+    }
+    .scroll-button-prev { left: -18px; }
+    .scroll-button-next { right: -18px; }
 }
 
-/* 
-  =============================================================================
-  ==> FIXED: MERGED AND COMPLETED RESPONSIVE STYLES FOR SMALLER SCREENS <==
-  =============================================================================
-*/
+/* Mobile Phone specific styles (481px to 768px) */
 @media (max-width: 768px) {
-    .hero-character-image { max-width: 80%; }
-    .floating-element.icon-4, .floating-element.shape-1 { display: none; }
-    
-    /* --- Responsive Login Card --- */
+    header .container {
+        height: 56px; /* Slightly smaller header height */
+        padding: 0 var(--space-2); /* Adjust horizontal padding */
+    }
+    .logo {
+        gap: 8px;
+    }
+    .logo .logo-symbol {
+        width: 35px;
+    }
+    .logo .logo-text {
+        font-size: 1.8rem;
+        letter-spacing: -1px;
+    }
+    .main-search-bar {
+        height: 40px; /* Slightly smaller search bar height */
+        padding: 0 var(--space-1) 0 var(--space-2); /* Adjust padding */
+    }
+    .main-search-bar input {
+        font-size: 0.9rem; /* Smaller font in search input */
+    }
+    .main-search-bar .icon-button {
+        font-size: 1.1rem; /* Smaller icons in search bar */
+    }
+
+    /* Hero section visual elements adjustments */
+    .hero-character-image { max-width: 90%; }
+    .floating-element.icon-1, .floating-element.icon-2, .floating-element.icon-3 {
+        width: 40px; height: 40px; font-size: 1.2rem;
+        filter: blur(8px);
+    }
+    .floating-element.icon-4, .floating-element.icon-5, .floating-element.shape-1, .floating-element.shape-2 { display: none; }
+
+    /* Login Card */
     .login-card {
         padding: 2rem 1.5rem;
     }
 
-    /* --- Responsive Footer --- */
+    /* Footer responsiveness */
     .footer-content {
-        flex-direction: column; /* Stack columns vertically */
+        flex-direction: column;
         text-align: center;
     }
     .footer-col h3::after {
         left: 50%;
-        transform: translateX(-50%); /* Center the underline */
+        transform: translateX(-50%);
     }
     .footer-col ul li {
-        justify-content: center; /* Center list items like contacts */
+        justify-content: center;
     }
     .footer-col ul li i {
-        margin-right: var(--space-1); /* Adjust icon margin */
+        margin-right: var(--space-1);
     }
     .social-links {
-        text-align: center; /* Ensure icons are centered */
+        text-align: center;
     }
     .newsletter-form {
         max-width: 320px;
-        margin-inline: auto; /* Center the form */
+        margin-inline: auto;
     }
 
-    /* Start button adjustments */
+    /* AI Character and button for 768px */
+    #ai-character {
+        width: 180px;
+        height: 180px;
+        bottom: 60px; /* Moved up to avoid button */
+        right: 5px;
+        scale: 0.4 0.4 0.4;
+    }
     .start-button {
         bottom: 15px;
         right: 15px;
-        padding: 10px 18px; /* Slightly smaller padding */
-        font-size: 0.9rem; /* Smaller font size */
-    }
-    #ai-character {
-        bottom: 50px; /* Adjust if the button size changed */
-        right: 10px;
-        width: 200px; /* Smaller size for mobile */
-        height: 200px;
+        padding: 10px 18px;
+        font-size: 0.9rem;
     }
 }
-/* ============================================================================= */
 
+/* Very Small Mobile Phone (e.g., iPhone SE, Pixel 2) (up to 480px) */
+@media (max-width: 480px) {
+    header .container {
+        padding: 0 var(--space-1);
+    }
+    .logo {
+        gap: 5px;
+    }
+    .logo .logo-symbol {
+        width: 30px;
+    }
+    .logo .logo-text {
+        font-size: 1.5rem;
+    }
+    .main-search-bar {
+        height: 36px;
+        padding: 0 var(--space-1);
+    }
+    .main-search-bar input { font-size: 0.8rem; }
+    .main-search-bar .icon-button { font-size: 0.9rem; }
+
+    .header-main-content {
+        width: 280px;
+        padding: 5rem var(--space-2) var(--space-2);
+    }
+    .header-option {
+        padding: var(--space-1);
+        gap: var(--space-1);
+    }
+    .header-option .option-text { font-size: 0.8rem; }
+    .header-option i { font-size: 1.1rem; }
+
+    .hero-headline { font-size: clamp(2rem, 7vw, 3rem); }
+    .hero-subheadline { font-size: var(--fs-base); }
+    .hero-cta-buttons {
+        flex-direction: column; /* Stack buttons vertically */
+        gap: var(--space-2);
+    }
+    .btn {
+        width: 90%;
+        max-width: 300px;
+        padding: var(--space-2) var(--space-3);
+        font-size: 0.95rem;
+    }
+    .hero-visual { padding: 0; }
+    .hero-character-image { max-width: 100%; }
+
+    .product-grid {
+        grid-template-columns: 1fr; /* Force single column for very small screens */
+        gap: 15px;
+    }
+    .product-grid.horizontal-scroll .product-card-outer {
+        width: 85vw; /* Make horizontal cards almost full width */
+        max-width: 300px;
+    }
+    .product-image { height: 160px; }
+    .card-body { padding: 1rem; }
+    .product-name-heading { font-size: 1.1rem; }
+    .long-description-summary { font-size: 0.8em; }
+    .price { font-size: 1.4rem; }
+    .card-actions { padding: 8px; }
+    .card-actions .add-to-cart-btn { padding: 8px; font-size: 0.8rem; }
+
+    /* AI Character and Button for 480px */
+    #ai-character {
+        width: 120px;
+        height: 120px;
+        bottom: 55px;
+        right: 0px;
+        scale: 0.3 0.3 0.3;
+    }
+    .start-button {
+        bottom: 10px;
+        right: 10px;
+        padding: 8px 15px;
+        font-size: 0.8rem;
+        gap: 5px;
+    }
+    .start-button i { font-size: 1rem; }
+
+    /* Chatbox adjustments for 480px */
+    .chatbox {
+        width: calc(100vw - 30px);
+        height: calc(100vh - 60px);
+        right: 15px;
+        bottom: 15px;
+    }
+    .chatbox-header { padding: 10px; font-size: 0.9rem; }
+    .chatbox-input-area { padding: 8px; }
+    .chatbox-input-area input { padding: 6px 10px; font-size: 0.85rem; }
+    .chatbox-input-area button { width: 32px; height: 32px; font-size: 0.85rem; }
+    .chatbox-input-area .mic-icon { font-size: 1rem; }
+
+    /* Marquee section adjustments */
+    .marquee-item {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        margin: 0 0.8rem;
+    }
+}
+
+/* Very very small screens (e.g., width < 375px) - for extreme cases */
+@media (max-width: 375px) {
+    .logo .logo-text {
+        display: none; /* Hide logo text on extremely small screens to save space */
+    }
+    .logo .logo-symbol {
+        width: 25px;
+    }
+    .header-main-content {
+        width: 240px;
+    }
+    
+    .hero-headline { font-size: clamp(1.6rem, 5vw, 2.2rem); }
+    .hero-subheadline { font-size: 0.8rem; }
+    .btn {
+        padding: 10px 15px;
+        font-size: 0.85rem;
+    }
+
+    /* Hide AI Character entirely to prioritize core content */
+    #ai-character {
+        display: none;
+    }
+    .start-button {
+        bottom: 5px;
+        right: 5px;
+        padding: 6px 10px;
+        font-size: 0.7rem;
+        gap: 3px;
+    }
+    .start-button i { font-size: 0.9rem; }
+    
+    .chatbox {
+        width: calc(100vw - 20px);
+        height: calc(100vh - 40px);
+        right: 10px;
+        bottom: 10px;
+    }
+}
 
 /* --- FORM VALIDATION STYLES --- */
 .form-group.error input {
-  border-color: #e74c3c; /* A noticeable red color */
+  border-color: #e74c3c;
   box-shadow: 0 0 0 1px #e74c3c;
 }
 
@@ -1470,49 +1874,7 @@ h2::after {
 /* Style for loading spinner on buttons */
 .btn-login .fa-spinner {
   margin-right: 8px;
-  animation: spin 1s linear infinite; /* Spinner animation */
-}
-
-/* ADDITIONAL STYLES THAT WERE IN ORIGINAL INLINE <STYLE> BLOCK */
-/* These were present in the first request's HTML's <style> block and are needed for elements like start-button, flash messages, etc. */
-
-/* Styles for start-button */
-.start-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 950;
-    padding: 15px 25px;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    border: none;
-    outline: none;
-    background: linear-gradient(90deg, #8a2be2, #4169e1);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    animation: pulseGlow 2.5s infinite ease-in-out;
-}
-.start-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(90deg, #9932cc, #5a7bd7);
-}
-
-/* Styles for AI character (model-viewer) */
-#ai-character {
-    position: fixed;
-    bottom: 60px;
-    right: 20px;
-    width: 300px;
-    height: 300px;
-    pointer-events: none;
-    z-index: 999;
+  animation: spin 1s linear infinite;
 }
 
 /* Marquee section styling */
@@ -1566,179 +1928,82 @@ h2::after {
 .flash-message.warning { background-color: #ffc107; color: #333; }
 .flash-message.info { background-color: #17a2b8; }
 
-/* User avatar */
-.user-avatar {
-    width: 40px;
-    height: 40px;
+/* Chatbox styles */
+.chatbox-background-effects {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 15px; /* Match parent */
+    pointer-events: none; /* Do not block interaction with chatbox content */
+    z-index: -1; /* Behind chat content */
+}
+.aurora-blob {
+    position: absolute;
     border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #fff;
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    filter: blur(50px);
+    opacity: 0.4;
+    animation: blobMove 15s infinite alternate ease-in-out;
+    z-index: -1;
+}
+.aurora-blob.pink {
+    background: radial-gradient(circle at center, #ff80ab, #c74d85);
+    width: 150px;
+    height: 150px;
+    top: 10%;
+    left: 80%;
+    animation-delay: 0s;
+}
+.aurora-blob.green {
+    background: radial-gradient(circle at center, #80ffbd, #4d9c79);
+    width: 180px;
+    height: 180px;
+    bottom: 5%;
+    left: -20%;
+    animation-delay: -5s;
+}
+@keyframes blobMove {
+    0% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -30px) scale(1.1); }
+    50% { transform: translate(-10px, 20px) scale(0.9); }
+    75% { transform: translate(15px, -10px) scale(1.05); }
+    100% { transform: translate(0, 0) scale(1); }
 }
 
-/* Product card outer container and content link specific overrides */
-.product-card-outer {
-    display: flex;
-    flex-direction: column;
-    background-color: #fff; /* Base card background, will be overridden by .product-card */
-    border: 1px solid #e0e0e0; /* Base card border, will be overridden by .product-card */
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Will be overridden by .product-card shadow */
-    transition: all 0.3s ease;
-    height: 100%;
-    position: relative;
-    z-index: 1;
-}
-.product-card-content-link {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    cursor: pointer;
-}
-.product-card-outer:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-}
-.product-card-outer:hover .product-name-heading {
-    color: var(--logo-accent-color);
-}
-.product-card-header {
-    height: 40px;
-    border-top-left-radius: 11px;
-    border-top-right-radius: 11px;
-    display: flex;
-    align-items: center;
-    padding: 0 1rem;
-    font-weight: 600;
-    color: white;
-    text-transform: capitalize;
-    font-size: 0.9em;
-    letter-spacing: 0.5px;
-}
-.product-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 1px solid #eee;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
-/* card-body is duplicated in the main block. The one in the main block is more concise. */
-/* h3 .product-name-heading is duplicated. The one in the main block has specific font size. */
-.product-category { /* This seems to be an old rule, possibly superseded by product-card-header */
-    font-size: 0.85rem;
-    font-weight: bold;
-    color: white;
-    padding: 4px 10px;
-    border-radius: 5px;
-    display: inline-block;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-}
-.long-description-summary {
-    font-size: 0.9em;
-    color: #666;
-    margin-bottom: 0.5rem;
-    flex-grow: 1;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    min-height: 3em;
-    line-height: 1.5em;
-}
-.product-price { /* This is now handled by .price in the main block */
-    font-size: 1.4rem;
-    font-weight: bold;
-    color: #007bff;
-    margin-top: 10px;
-    margin-bottom: 0;
-}
-.card-actions {
-    padding: 15px;
-    border-top: 1px solid #eee;
-    background-color: #f8f9fa;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.card-actions .add-to-cart-btn {
-    width: 100%;
-    padding: 12px 5px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: center;
-    transition: var(--transition-medium);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: hidden;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--color-white);
-    color: var(--logo-primary-color);
-}
-.card-actions .add-to-cart-btn:hover {
-    background-color: var(--logo-primary-color);
-    color: var(--color-white);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    border-color: var(--logo-primary-color);
-}
-.card-actions .add-to-cart-btn.added {
-    background-color: #28a745;
-    color: white;
-    pointer-events: none;
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.277);
-    animation: buttonAdded 0.6s ease-out forwards;
-}
-.card-actions .add-to-cart-btn.adding {
-    background-color: #3498db;
-    color: white;
-    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.4);
-    transform: scale(1.02);
-}
-.share-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    padding-bottom: 15px;
-    background-color: #f8f9fa;
-    border-top: 1px solid #eee;
-}
-.universal-share-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
+.depth-circle {
+    position: absolute;
     border-radius: 50%;
-    background-color: #4A90E2;
-    color: white;
-    font-size: 1.5rem;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
-    outline: none;
-    position: relative;
-    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.1);
+    animation: circleFloat 20s infinite linear;
+    z-index: -2;
 }
-.universal-share-btn:hover {
-    background-color: #357ABD;
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.35);
+.depth-circle.c1 { width: 80px; height: 80px; top: 70%; left: 10%; animation-delay: 0s; }
+.depth-circle.c2 { width: 120px; height: 120px; top: 10%; left: 50%; animation-delay: -7s; }
+.depth-circle.c3 { width: 60px; height: 60px; top: 40%; left: 90%; animation-delay: -14s; }
+
+@keyframes circleFloat {
+    0% { transform: translate(0, 0) rotate(0deg); opacity: 0.1; }
+    50% { transform: translate(30px, 50px) rotate(180deg); opacity: 0.2; }
+    100% { transform: translate(0, 0) rotate(360deg); opacity: 0.1; }
 }
-.universal-share-btn i {
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 15px rgba(255, 255, 255, 0.4);
+
+.energy-particle {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    opacity: 0;
+    animation: particleBurst 3s infinite ease-out;
+    z-index: -1;
+}
+.energy-particle.p1 { width: 8px; height: 8px; top: 20%; left: 20%; animation-delay: 0s; }
+.energy-particle.p2 { width: 5px; height: 5px; top: 60%; left: 70%; animation-delay: 0.8s; }
+.energy-particle.p3 { width: 10px; height: 10px; top: 80%; left: 40%; animation-delay: 1.6s; }
+.energy-particle.p4 { width: 6px; height: 6px; top: 30%; left: 90%; animation-delay: 2.4s; }
+
+@keyframes particleBurst {
+    0% { transform: scale(0.1); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
 }
