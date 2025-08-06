@@ -10,7 +10,7 @@
     <meta name="keywords" content="digital marketplace, websites, ai models, applications, templates, code, developer tools">
     
     <!-- Open Graph / Facebook Meta Tags -->
-    <link rel="stylesheet" href="chat.css">
+    <!-- Removed <link rel="stylesheet" href="chat.css"> as its styles are now fully integrated below -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.nexaur.com/">
     <meta property="og:title" content="Nexaur - Your Digital Marketplace">
@@ -168,7 +168,7 @@
             font-family: var(--font-primary);
             font-size: var(--fs-base);
             line-height: var(--lh-base);
-            color: var(--color-text); /* This will be overridden by more specific rules for dark text */
+            color: var(--color-text-dark); /* Changed to use --color-text-dark as default */
             background-image: var(--gradient-primary);
             background-size: 400% 400%; /* Make background larger for animation */
             background-attachment: fixed;
@@ -197,7 +197,7 @@
             color: var(--color-white);
         }
         a { text-decoration: none; color: var(--color-accent-start); }
-        a:hover { color: var(--color-text-dark); } /* This will conflict with some specific link colors */
+        /* Removed generic a:hover rule as it conflicted with specific link styles */
 
         /* ============================================= */
         /* 5. MAIN COMPONENTS & UI                       */
@@ -1913,7 +1913,7 @@
             }
             .scroll-button { display: none; } /* Hide buttons on very small screens, rely on swipe */
             .horizontal-scroll-wrapper {
-                padding: 0 10px; /* Adjust padding if buttons are hidden */
+                padding: 0 10px; /* Added padding if buttons are hidden */
             }
         }
         
@@ -2130,6 +2130,212 @@
             20% { opacity: 1; }
             100% { transform: scale(1.5); opacity: 0; }
         }
+
+        /* Chatbox-specific styles (from original chat.css which is now integrated) */
+        .chatbox {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1002;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.8) translateY(20px);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s ease-out;
+        }
+        .chatbox.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+        }
+
+        .chatbox-header {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chatbox-header span {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .chatbox-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chatbox-icons i {
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .chatbox-icons i:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .chatbox-body {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            color: #e0e0e0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            scroll-behavior: smooth;
+        }
+
+        .chatbox-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chatbox-body::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .chatbox-body::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            position: relative;
+            word-wrap: break-word;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .message.user {
+            background: linear-gradient(135deg, #a7c7f9, #7b62e4);
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.ai {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e0e0e0;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .chatbox-input-area {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .chatbox-input-area input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            outline: none;
+            font-size: 1rem;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .chatbox-input-area input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .chatbox-input-area input:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .chatbox-input-area button {
+            background: linear-gradient(135deg, #a7c7f9, #7b62e4);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .chatbox-input-area button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .mic-icon {
+            font-size: 1.2rem;
+            color: #fff;
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.2s ease;
+            padding: 5px;
+            border-radius: 50%;
+        }
+
+        .mic-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .mic-icon.active {
+            color: #ff478f;
+            animation: pulseGlow 1.5s infinite;
+        }
+        .mic-icon.input-mic {
+            margin-right: 10px;
+        }
+
+        /* Border Star Effect */
+        .border-star {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 15px;
+            background: linear-gradient(45deg, #a7c7f9, #f1799d, #d4a5fd, #ec8958);
+            background-size: 400% 400%;
+            animation: borderShine 10s linear infinite alternate;
+            z-index: -3; /* Behind all other chatbox elements */
+            pointer-events: none;
+            box-shadow: 0 0 15px rgba(255,255,255,0.4) inset, 0 0 15px rgba(255,255,255,0.4); /* Subtle glow */
+            filter: blur(1px); /* Soften the border */
+        }
+
+        @keyframes borderShine {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
     </style>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 </head>
@@ -2139,7 +2345,7 @@
 
     <!-- Fixed AI Start Button -->
     <button class="start-button animated-button" onclick="window.handleStartButtonClick()">
-        <i class="fas fa-robot"></i>
+        <i class="fas fa-robot" aria-hidden="true"></i>
         Get Started with AI
     </button>
 
@@ -2154,16 +2360,16 @@
         <div class="chatbox-header">
             <span>Shivay AI Assistant</span>
             <div class="chatbox-icons">
-                <i id="headerMicIcon" class="fas fa-microphone mic-icon" onclick="window.toggleChatMic(this)" title="Speak Command (Header)"></i>
-                <i class="fas fa-cog settings-icon" onclick="alert('Settings not implemented in static HTML')" title="Settings"></i>
-                <i class="fas fa-times close-icon" onclick="window.closeChat()" title="Close Chat"></i>
+                <i id="headerMicIcon" class="fas fa-microphone mic-icon" onclick="window.toggleChatMic(this)" title="Speak Command (Header)" aria-label="Toggle Voice Input (Header)" aria-hidden="true"></i>
+                <i class="fas fa-cog settings-icon" onclick="alert('Settings not implemented in static HTML')" title="Settings" aria-hidden="true"></i>
+                <i class="fas fa-times close-icon" onclick="window.closeChat()" title="Close Chat" aria-hidden="true"></i>
             </div>
         </div>
         <div class="chatbox-body" id="chatBody"></div>
         <div class="chatbox-input-area">
-            <i id="inputAreaMicIcon" class="fas fa-microphone mic-icon input-mic" onclick="window.toggleChatMic(this)" title="Speak Command (Input)" aria-label="Toggle Voice Input"></i>
+            <i id="inputAreaMicIcon" class="fas fa-microphone mic-icon input-mic" onclick="window.toggleChatMic(this)" title="Speak Command (Input)" aria-label="Toggle Voice Input" aria-hidden="true"></i>
             <input type="text" id="shivayChatInput" placeholder="Type or speak..." aria-label="Type your command">
-            <button id="sendChatMsgBtn" aria-label="Send Command"><i class="fas fa-paper-plane"></i></button>
+            <button id="sendChatMsgBtn" aria-label="Send Command"><i class="fas fa-paper-plane" aria-hidden="true"></i></button>
         </div>
     </div>
 
@@ -2214,7 +2420,7 @@
                 </div>
                 <!-- Corrected: Header navigation links are now correctly grouped inside header-nav-actions -->
                 <div class="header-nav-actions">
-                    <a href="#" class="header-option header-option--home"><i class="fa-solid fa-house"></i><span class="option-text">Home</span></a>
+                    <a href="#" class="header-option header-option--home"><i class="fa-solid fa-house" aria-hidden="true"></i><span class="option-text">Home</span></a>
 
                     <a href="#" class="header-option header-option--profile">
                         <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&s=40" alt="User Profile" class="user-avatar">
@@ -2223,7 +2429,7 @@
                     
                     <a href="#" class="header-option header-option--cart" onclick="alert('Cart page is not implemented in this static HTML file.'); return false;">
                         <div class="cart-icon-wrapper">
-                            <i class="fa-solid fa-cart-shopping"></i>
+                            <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
                             <!-- <span class="cart-count">0</span> Uncomment and update with JS for a numerical badge -->
                         </div>
                         <span class="option-text">Cart</span>
@@ -2239,7 +2445,7 @@
         <!-- Messages dynamically added here by JS for simulation -->
     </div>
 
-    <main id="main-content" role="main">
+    <main id="main-content">
         <section class="hero-section">
             <video autoplay loop muted playsinline class="hero-background-video">
                 <source src="https://assets.mixkit.co/videos/preview/mixkit-design-software-developer-making-changes-to-a-program-3331-large.mp4" type="video/mp4">
@@ -2250,32 +2456,32 @@
                 <p class="hero-subheadline">Nexaur provides the tools for your design team to bring their most ambitious ideas to life, faster than ever before.</p>
                 <div class="hero-cta-buttons">
                     <a href="#products" class="btn btn-primary">Explore Products</a>
-                    <a href="#" class="btn btn-secondary" onclick="alert('Video demo is not available in this static HTML file.'); return false;"><i class="fa-solid fa-circle-play"></i> See it in Action</a>
+                    <a href="#" class="btn btn-secondary" onclick="alert('Video demo is not available in this static HTML file.'); return false;"><i class="fa-solid fa-circle-play" aria-hidden="true"></i> See it in Action</a>
                 </div>
             </div>
             <div class="hero-visual">
                 <img src="https://placehold.co/450x300/e0e0e0/ffffff?text=Hero+Characters" alt="Illustration of a design team collaborating" class="hero-character-image">
-                <div class="floating-element icon-1"><i class="fa-solid fa-sliders"></i></div>
-                <div class="floating-element icon-2"><i class="fa-solid fa-compass-drafting"></i></div>
-                <div class="floating-element icon-3"><i class="fa-solid fa-layer-group"></i></div>
+                <div class="floating-element icon-1"><i class="fa-solid fa-sliders" aria-hidden="true"></i></div>
+                <div class="floating-element icon-2"><i class="fa-solid fa-compass-drafting" aria-hidden="true"></i></div>
+                <div class="floating-element icon-3"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></div>
             </div>
         </section>
 
         <section class="marquee-section animate-on-scroll">
             <div class="container"><h2>🚀Now Trending</h2></div>
-            <div class="marquee-container" title="Hover to pause scrolling"><div class="marquee-track"><a href="#" class="marquee-item"><i class="fas fa-bolt"></i> Modern E-Commerce Platform</a><a href="#" class="marquee-item"><i class="fas fa-palette"></i> Creative Portfolio Website</a><a href="#" class="marquee-item"><i class="fas fa-brain"></i> AI Customer Service Chatbot</a><a href="#" class="marquee-item"><i class="fas fa-building"></i> Corporate Business Portal</a><a href="#" class="marquee-item"><i class="fas fa-camera-retro"></i> Image Recognition API</a><a href="#" class="marquee-item"><i class="fas fa-feather-pointed"></i> Minimalist Blog & News</a><a href="#" class="marquee-item"><i class="fas fa-bolt"></i> Modern E-Commerce Platform</a><a href="#" class="marquee-item"><i class="fas fa-palette"></i> Creative Portfolio Website</a><a href="#" class="marquee-item"><i class="fas fa-brain"></i> AI Customer Service Chatbot</a><a href="#" class="marquee-item"><i class="fas fa-building"></i> Corporate Business Portal</a><a href="#" class="marquee-item"><i class="fas fa-camera-retro"></i> Image Recognition API</a><a href="#" class="marquee-item"><i class="fas fa-feather-pointed"></i> Minimalist Blog & News</a></div></div>
-            <div class="marquee-container reverse" title="Hover to pause scrolling"><div class="marquee-track"><a href="#" class="marquee-item"><i class="fas fa-tasks"></i> Project Management Suite</a><a href="#" class="marquee-item"><i class="fas fa-chart-line"></i> Predictive Analytics Dashboard</a><a href="#" class="marquee-item"><i class="fas fa-rocket"></i> SaaS Starter Kit</a><a href="#" class="marquee-item"><i class="fas fa-pen-nib"></i> Content Generation Engine</a><a href="#" class="marquee-item"><i class="fas fa-users"></i> Social Media Manager</a><a href="#" class="marquee-item"><i class="fas fa-headset"></i> CRM Platform</a><a href="#" class="marquee-item"><i class="fas fa-tasks"></i> Project Management Suite</a><a href="#" class="marquee-item"><i class="fas fa-chart-line"></i> Predictive Analytics Dashboard</a><a href="#" class="marquee-item"><i class="fas fa-rocket"></i> SaaS Starter Kit</a><a href="#" class="marquee-item"><i class="fas fa-pen-nib"></i> Content Generation Engine</a><a href="#" class="marquee-item"><i class="fas fa-users"></i> Social Media Manager</a><a href="#" class="marquee-item"><i class="fas fa-headset"></i> CRM Platform</a></div></div>
+            <div class="marquee-container" title="Hover to pause scrolling"><div class="marquee-track"><a href="#" class="marquee-item"><i class="fas fa-bolt" aria-hidden="true"></i> Modern E-Commerce Platform</a><a href="#" class="marquee-item"><i class="fas fa-palette" aria-hidden="true"></i> Creative Portfolio Website</a><a href="#" class="marquee-item"><i class="fas fa-brain" aria-hidden="true"></i> AI Customer Service Chatbot</a><a href="#" class="marquee-item"><i class="fas fa-building" aria-hidden="true"></i> Corporate Business Portal</a><a href="#" class="marquee-item"><i class="fas fa-camera-retro" aria-hidden="true"></i> Image Recognition API</a><a href="#" class="marquee-item"><i class="fas fa-feather-pointed" aria-hidden="true"></i> Minimalist Blog & News</a><a href="#" class="marquee-item"><i class="fas fa-bolt" aria-hidden="true"></i> Modern E-Commerce Platform</a><a href="#" class="marquee-item"><i class="fas fa-palette" aria-hidden="true"></i> Creative Portfolio Website</a><a href="#" class="marquee-item"><i class="fas fa-brain" aria-hidden="true"></i> AI Customer Service Chatbot</a><a href="#" class="marquee-item"><i class="fas fa-building" aria-hidden="true"></i> Corporate Business Portal</a><a href="#" class="marquee-item"><i class="fas fa-camera-retro" aria-hidden="true"></i> Image Recognition API</a><a href="#" class="marquee-item"><i class="fas fa-feather-pointed" aria-hidden="true"></i> Minimalist Blog & News</a></div></div>
+            <div class="marquee-container reverse" title="Hover to pause scrolling"><div class="marquee-track"><a href="#" class="marquee-item"><i class="fas fa-tasks" aria-hidden="true"></i> Project Management Suite</a><a href="#" class="marquee-item"><i class="fas fa-chart-line" aria-hidden="true"></i> Predictive Analytics Dashboard</a><a href="#" class="marquee-item"><i class="fas fa-rocket" aria-hidden="true"></i> SaaS Starter Kit</a><a href="#" class="marquee-item"><i class="fas fa-pen-nib" aria-hidden="true"></i> Content Generation Engine</a><a href="#" class="marquee-item"><i class="fas fa-users" aria-hidden="true"></i> Social Media Manager</a><a href="#" class="marquee-item"><i class="fas fa-headset" aria-hidden="true"></i> CRM Platform</a><a href="#" class="marquee-item"><i class="fas fa-tasks" aria-hidden="true"></i> Project Management Suite</a><a href="#" class="marquee-item"><i class="fas fa-chart-line" aria-hidden="true"></i> Predictive Analytics Dashboard</a><a href="#" class="marquee-item"><i class="fas fa-rocket" aria-hidden="true"></i> SaaS Starter Kit</a><a href="#" class="marquee-item"><i class="fas fa-pen-nib" aria-hidden="true"></i> Content Generation Engine</a><a href="#" class="marquee-item"><i class="fas fa-users" aria-hidden="true"></i> Social Media Manager</a><a href="#" class="marquee-item"><i class="fas fa-headset" aria-hidden="true"></i> CRM Platform</a></div></div>
         </section>
 
         <section id="products" class="product-grid-section">
             <div class="container">
                 <h2 id="websites" class="animate-on-scroll">🛒Featured Websites</h2>
                 <div class="horizontal-scroll-wrapper">
-                    <button class="scroll-button scroll-button-prev website-scroll-prev" aria-label="Scroll left"><i class="fas fa-chevron-left"></i></button>
+                    <button class="scroll-button scroll-button-prev website-scroll-prev" aria-label="Scroll left"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
                     <div class="product-grid horizontal-scroll" id="websites-grid">
                         <!-- Website products will be loaded here by JavaScript -->
                     </div>
-                    <button class="scroll-button scroll-button-next website-scroll-next" aria-label="Scroll right"><i class="fas fa-chevron-right"></i></button>
+                    <button class="scroll-button scroll-button-next website-scroll-next" aria-label="Scroll right"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
                 </div>
 
                 <h2 id="ai" class="animate-on-scroll">✨Top AI Solutions</h2>
@@ -2300,12 +2506,12 @@
                 <div class="footer-col">
                     <h3>Follow & Subscribe 👋</h3>
                     <div class="social-links">
-                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="View our GitHub profile"><i class="fab fa-github"></i></a>
-                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Connect with us on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Subscribe to our YouTube channel"><i class="fab fa-youtube"></i></a>
-                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Like us on Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="View our GitHub profile"><i class="fab fa-github" aria-hidden="true"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Connect with us on LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Subscribe to our YouTube channel"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Like us on Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
                     </div>
                     <p style="margin-top: 20px;">Get the latest news and updates.</p>
                     <form class="newsletter-form" onsubmit="alert('Newsletter subscription is not implemented in this static HTML file.'); return false;"><input type="email" placeholder="Enter your email" required><button type="submit" aria-label="Subscribe to newsletter">Go</button></form>
@@ -2314,6 +2520,7 @@
         </div>
     </footer>
     <!-- Link to the external JavaScript file -->
+    <!-- Note: nex.js and chat.js are linked, but their content is not provided here. -->
     <script src="nex.js"></script>
     <script src="chat.js"></script>
 </body>
