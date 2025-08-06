@@ -1,0 +1,556 @@
+/* static/chat.css */
+
+/* ==============================================================
+  chat.css
+  Styles for Shivay AI Button & Chatbox
+  Theme: Vibrant Aurora (Developed & Enhanced Version 2.4 - Lait Colo & Gals Effact)
+  Further Color Development (Version 2.5 - Deeper Lait & Refined Gals)
+  ============================================================== */
+
+:root {
+    /* Base Vibrant Aurora Palette */
+    --ai-primary-color: #a445ff;        /* Main Purple */
+    --ai-primary-darker: #8a32d9;       /* Darker Purple */
+    --ai-accent-color: #00d4ff;         /* Bright Blue Accent */
+    --ai-aurora-green: #00ff9b;         /* Bright Green (Aurora effect) */
+    --ai-aurora-pink: #ff3b8d;          /* Bright Pink (Aurora effect) */
+
+    /* Core Backgrounds & Text */
+    --ai-bg-dark: #100c1a;              /* Deepest background */
+    --ai-bg-medium: #1c182a;            /* Medium dark background */
+    --ai-bg-light-contrast: #2a253e;    /* Lighter dark for contrast elements */
+    --ai-text-color: #f0f0ff;           /* Main readable text color */
+    --ai-text-muted: #9890c0;           /* General muted text */
+    --ai-border-color: #403860;         /* General border color */
+
+    /* --- Expanded Lait Colo & Gals Effact Colors --- */
+    --ai-lait-accent-light: #e0d9ff;    /* Base Lait Colo: A soft, very light purple for primary accents */
+    --ai-lait-text-subtle: #B0ADC4;     /* Lait Colo: Slightly brighter muted text for subtle elements */
+    --ai-lait-element-glow: rgba(224, 217, 255, 0.4); /* Soft glow for Lait elements */
+
+    --ai-glass-bg-main: rgba(28, 24, 42, 0.75);      /* Main glass panel background, slightly less transparent */
+    --ai-glass-bg-subtle: rgba(28, 24, 42, 0.45);    /* More transparent for subtle glass elements */
+    --ai-glass-border-light: rgba(255, 255, 255, 0.12); /* Subtle light border for glass effect, slightly stronger */
+    --ai-glass-border-hover: rgba(255, 255, 255, 0.2);  /* Stronger light border for interactive glass elements */
+    --ai-glass-shadow-light: rgba(255, 255, 255, 0.08); /* Very light shadow for glass depth, slightly more visible */
+    --ai-glass-element-bg: rgba(255, 255, 255, 0.08);   /* For elements with subtle light glass look, slightly more opaque */
+
+    /* Semantic/Status Colors (Lait Colo & Gals Effact infused) */
+    --ai-status-info-color: var(--ai-lait-accent-light);
+    --ai-status-info-bg: rgba(224, 217, 255, 0.08); /* Soft Lait Colo tint */
+    --ai-status-info-border: rgba(224, 217, 255, 0.25);
+
+    --ai-status-success-color: #72E0AF; /* Soft Green for Success */
+    --ai-status-success-bg: rgba(114, 224, 175, 0.08);
+    --ai-status-success-border: rgba(114, 224, 175, 0.25);
+
+    --ai-status-warning-color: #FFCA28; /* Soft Yellow for Warning */
+    --ai-status-warning-bg: rgba(255, 202, 40, 0.08);
+    --ai-status-warning-border: rgba(255, 202, 40, 0.25);
+
+    --ai-status-error-color: #FF6B6B; /* Soft Red for Error */
+    --ai-status-error-bg: rgba(255, 107, 107, 0.08);
+    --ai-status-error-border: rgba(255, 107, 107, 0.25);
+    /* -------------------------------------------------- */
+
+    /* Glows */
+    --ai-accent-glow: rgba(0, 220, 255, 0.45);
+    --ai-primary-glow: rgba(170, 70, 255, 0.5);
+    --ai-aurora-pink-glow: rgba(255, 59, 141, 0.4);
+
+    /* Layout & Animation Variables */
+    --button-font-family: 'Segoe UI', 'Poppins', 'Roboto', sans-serif;
+    --button-bottom-offset: 25px;
+    --button-right-offset: 25px;
+    --button-height-approx: 55px;
+    --chatbox-width: 380px;
+    --chatbox-min-height: 420px;
+    --chatbox-border-radius: 20px;
+    --chatbox-shadow: 0 15px 45px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--ai-border-color);
+    --viewport-padding-right: 25px;
+    --viewport-padding-bottom-for-chatbox: calc(var(--button-bottom-offset) + var(--button-height-approx) + 15px);
+    --transition-speed-slow: 0.5s;
+    --transition-speed-medium: 0.3s;
+    --cubic-bezier-smooth: cubic-bezier(0.25, 0.8, 0.25, 1);
+    --cubic-bezier-elastic: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+/* Basic Reset & Global Font */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--button-font-family);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar for Webkit Browsers */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--ai-bg-medium);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--ai-border-color);
+    border-radius: 10px;
+    border: 2px solid var(--ai-bg-medium);
+    transition: background 0.2s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--ai-lait-accent-light); /* Lait Colo on hover */
+}
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+
+/* Fixed AI Start Button */
+.start-button {
+    position: fixed;
+    bottom: var(--button-bottom-offset);
+    right: var(--button-right-offset);
+    z-index: 1045;
+    padding: 15px 28px;
+    font-size: 18px;
+    font-family: var(--button-font-family);
+    font-weight: 600;
+    color: white;
+    letter-spacing: 0.75px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(270deg, #a445ff, #ff3b8d, #00ff9b, #00d4ff, #a445ff);
+    background-size: 500% 500%;
+    box-shadow: 0 6px 30px var(--ai-primary-glow), 0 0 15px rgba(0, 220, 255, 0.25), 0 0 10px var(--ai-aurora-pink-glow);
+    animation: startButtonGlowBackground 10s ease-in-out infinite;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform var(--transition-speed-medium) var(--cubic-bezier-elastic), box-shadow var(--transition-speed-medium) ease;
+    will-change: transform, box-shadow;
+}
+.start-button:hover {
+    transform: scale(1.08) translateY(-5px);
+    box-shadow: 0 10px 40px var(--ai-primary-glow), 0 0 20px var(--ai-accent-glow), 0 0 15px var(--ai-aurora-pink-glow);
+    animation-play-state: paused;
+}
+.start-button:active {
+    transform: scale(1.03) translateY(-2px);
+    box-shadow: 0 4px 20px var(--ai-primary-glow);
+}
+
+@keyframes startButtonGlowBackground {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.start-button i {
+    margin-right: 8px;
+    font-size: 20px;
+}
+
+/* AI Chatbox Styles */
+.chatbox {
+    position: fixed;
+    right: var(--viewport-padding-right);
+    bottom: var(--viewport-padding-bottom-for-chatbox);
+    width: var(--chatbox-width);
+    max-height: 60vh;
+    min-height: var(--chatbox-min-height);
+    background-color: var(--ai-bg-dark); /* Base dark background */
+    color: var(--ai-text-color);
+    border: 1px solid var(--ai-border-color);
+    border-radius: var(--chatbox-border-radius);
+    box-shadow: var(--chatbox-shadow);
+    z-index: 1046;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px) scale(0.9);
+    transform-origin: bottom right;
+    transition: opacity var(--transition-speed-slow) var(--cubic-bezier-smooth),
+                transform var(--transition-speed-slow) var(--cubic-bezier-smooth);
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.chatbox.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    visibility: visible;
+}
+
+/* Chatbox Header - Gals Effact */
+.chatbox-header {
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--ai-border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--ai-glass-bg-main); /* Main transparent glass background */
+    backdrop-filter: blur(15px); /* Slightly stronger blur for main panels */
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--ai-glass-border-light); /* Light border */
+    box-shadow: 0 4px 20px var(--ai-glass-shadow-light); /* Subtle light shadow */
+    flex-shrink: 0;
+}
+
+.chatbox-header .header-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.chatbox-header .ai-avatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(45deg, var(--ai-primary-color), var(--ai-accent-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 0 10px var(--ai-accent-glow);
+}
+.chatbox-header span {
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--ai-text-color);
+}
+.chatbox-icons {
+    display: flex;
+    gap: 12px;
+}
+.chatbox-icons i {
+    cursor: pointer;
+    color: var(--ai-text-muted);
+    font-size: 22px;
+    transition: color 0.2s ease, transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 50%;
+    padding: 2px;
+}
+.chatbox-icons i:hover {
+    color: var(--ai-lait-accent-light); /* Lait Colo on hover */
+    transform: scale(1.1);
+    background-color: var(--ai-glass-element-bg); /* Subtle glass background on hover */
+    box-shadow: 0 0 10px var(--ai-glass-shadow-light), 0 0 8px var(--ai-lait-element-glow); /* Subtle glow on hover */
+}
+.chatbox-icons i:active {
+    transform: scale(0.95);
+    background-color: transparent;
+    box-shadow: none;
+}
+
+
+/* Chatbox Body */
+.chatbox-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    scroll-behavior: smooth;
+}
+
+.chat-message {
+    display: flex;
+    align-items: flex-start;
+}
+
+.message-bubble {
+    padding: 12px 18px;
+    border-radius: 20px;
+    max-width: 85%;
+    line-height: 1.6;
+    font-size: 15px;
+    word-wrap: break-word;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.chat-message.user {
+    justify-content: flex-end;
+}
+.chat-message.user .message-bubble {
+    background: linear-gradient(135deg, var(--ai-primary-color), var(--ai-primary-darker));
+    color: white;
+    border-bottom-right-radius: 6px;
+    box-shadow: 0 4px 15px var(--ai-primary-glow);
+}
+
+.chat-message.ai {
+    justify-content: flex-start;
+}
+.chat-message.ai .ai-message-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+.chat-message.ai .ai-message-avatar {
+    width: 30px;
+    height: 30px;
+    background-color: var(--ai-bg-light-contrast);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--ai-accent-color);
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.15);
+}
+.chat-message.ai .message-bubble {
+    background-color: var(--ai-bg-light-contrast);
+    color: var(--ai-text-color);
+    border-bottom-left-radius: 6px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* New: System/Status Message - Lait Colo & Gals Effact Bubble */
+.chat-message.status,
+.chat-message.info,
+.chat-message.success,
+.chat-message.warning,
+.chat-message.error {
+    justify-content: center;
+    text-align: center;
+}
+
+.chat-message.status .message-bubble,
+.chat-message.info .message-bubble {
+    background-color: var(--ai-status-info-bg);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: var(--ai-status-info-color);
+    font-size: 13px;
+    padding: 8px 15px;
+    border-radius: 12px;
+    max-width: 70%;
+    border: 1px solid var(--ai-status-info-border);
+    box-shadow: 0 2px 12px var(--ai-glass-shadow-light); /* More prominent light shadow */
+}
+
+.chat-message.success .message-bubble {
+    background-color: var(--ai-status-success-bg);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: var(--ai-status-success-color);
+    font-size: 13px;
+    padding: 8px 15px;
+    border-radius: 12px;
+    max-width: 70%;
+    border: 1px solid var(--ai-status-success-border);
+    box-shadow: 0 2px 12px var(--ai-glass-shadow-light);
+}
+
+.chat-message.warning .message-bubble {
+    background-color: var(--ai-status-warning-bg);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: var(--ai-status-warning-color);
+    font-size: 13px;
+    padding: 8px 15px;
+    border-radius: 12px;
+    max-width: 70%;
+    border: 1px solid var(--ai-status-warning-border);
+    box-shadow: 0 2px 12px var(--ai-glass-shadow-light);
+}
+
+.chat-message.error .message-bubble {
+    background-color: var(--ai-status-error-bg);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: var(--ai-status-error-color);
+    font-size: 13px;
+    padding: 8px 15px;
+    border-radius: 12px;
+    max-width: 70%;
+    border: 1px solid var(--ai-status-error-border);
+    box-shadow: 0 2px 12px var(--ai-glass-shadow-light);
+}
+
+
+/* Typing Indicator */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    padding: 8px 15px;
+    background-color: var(--ai-glass-element-bg); /* Light glass background */
+    backdrop-filter: blur(8px); /* Slightly stronger blur for focus */
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 18px;
+    max-width: fit-content;
+    color: var(--ai-lait-text-subtle); /* Lait Colo text for indicator */
+    border: 1px solid var(--ai-glass-border-light); /* Light border */
+    box-shadow: 0 2px 12px var(--ai-glass-shadow-light), 0 0 8px var(--ai-lait-element-glow); /* Subtle light shadow & glow */
+}
+.typing-indicator .dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--ai-lait-accent-light); /* Lait Colo dots */
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out;
+}
+.typing-indicator .dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator .dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-7px); }
+}
+
+
+/* Chatbox Input - Gals Effact */
+.chatbox-input-area {
+    padding: 10px 15px;
+    border-top: 1px solid var(--ai-border-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--ai-glass-bg-main); /* Main transparent glass background */
+    backdrop-filter: blur(15px); /* Slightly stronger blur */
+    -webkit-backdrop-filter: blur(15px);
+    border-top: 1px solid var(--ai-glass-border-light); /* Light border */
+    box-shadow: 0 -4px 20px var(--ai-glass-shadow-light); /* Subtle light shadow */
+    flex-shrink: 0;
+}
+
+#shivayChatInput {
+    flex-grow: 1;
+    padding: 12px 18px;
+    background-color: var(--ai-bg-dark); /* Dark input background */
+    color: var(--ai-text-color);
+    border: 1px solid var(--ai-border-color);
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+#shivayChatInput:focus {
+    border-color: var(--ai-accent-color);
+    box-shadow: 0 0 0 3px rgb(125, 218, 237), 0 0 8px var(--ai-lait-accent-light), 0 0 15px var(--ai-lait-element-glow); /* Added Lait Colo glow */
+}
+#shivayChatInput::placeholder {
+    color: var(--ai-lait-text-subtle); /* Lait Colo placeholder */
+    opacity: 0.6;
+}
+
+#sendChatMsgBtn {
+    background: linear-gradient(45deg, var(--ai-primary-color), var(--ai-accent-color));
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, color 0.2s ease;
+    box-shadow: 0 2px 10px var(--ai-primary-glow);
+}
+#sendChatMsgBtn:hover {
+    background: linear-gradient(45deg, var(--ai-primary-darker), var(--ai-accent-color));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--ai-accent-glow), 0 0 20px var(--ai-primary-glow);
+    color: var(--ai-lait-accent-light); /* Lait Colo icon on hover */
+}
+#sendChatMsgBtn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 5px var(--ai-primary-glow);
+}
+#sendChatMsgBtn:disabled {
+    background: var(--ai-bg-light-contrast);
+    color: var(--ai-text-muted);
+    cursor: not-allowed;
+    opacity: 0.7;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Basic Responsiveness for smaller screens */
+@media (max-width: 768px) {
+    :root {
+        --button-bottom-offset: 15px;
+        --button-right-offset: 15px;
+        --viewport-padding-right: 15px;
+        --viewport-padding-bottom-for-chatbox: 15px;
+        --chatbox-width: 95vw;
+        --chatbox-min-height: 70vh;
+    }
+
+    .chatbox {
+        width: var(--chatbox-width);
+        max-height: 90vh;
+        left: 50%;
+        transform: translate(-50%, 40px) scale(0.9);
+        transform-origin: center bottom;
+        bottom: var(--viewport-padding-bottom-for-chatbox);
+    }
+
+    .chatbox.active {
+        transform: translate(-50%, 0) scale(1);
+    }
+
+    .start-button {
+        padding: 12px 22px;
+        font-size: 16px;
+        bottom: var(--button-bottom-offset);
+        right: var(--button-right-offset);
+    }
+
+    .chatbox-header span {
+        font-size: 17px;
+    }
+    .chatbox-icons i {
+        font-size: 20px;
+    }
+    #shivayChatInput {
+        font-size: 15px;
+        padding: 10px 15px;
+    }
+    #sendChatMsgBtn {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        min-height: 42px;
+        font-size: 18px;
+    }
+}
+
+/* Even smaller screens (e.g., iPhone SE) */
+@media (max-width: 480px) {
+    :root {
+        --chatbox-border-radius: 15px;
+    }
+    .chatbox-body {
+        padding: 15px;
+        gap: 10px;
+    }
+    .message-bubble {
+        padding: 10px 15px;
+        font-size: 14px;
+        max-width: 90%;
+    }
+    .chat-message.status .message-bubble,
+    .chat-message.info .message-bubble,
+    .chat-message.success .message-bubble,
+    .chat-message.warning .message-bubble,
+    .chat-message.error .message-bubble {
+        max-width: 85%; /* Adjust for smaller screens */
+    }
+}
