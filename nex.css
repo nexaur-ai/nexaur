@@ -542,6 +542,7 @@ header .container {
 .product-card-outer { /* Outer container for consistent sizing and hover */
     display: flex;
     flex-direction: column;
+    /* Removed background-color: var(--color-white); - it was redundant */
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
@@ -630,7 +631,7 @@ header .container {
     font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: 8px;
-    color: var(--color-text-dark); /* This should be overridden for text on glass cards */
+    color: var(--color-white); /* Changed to white for readability on glass card */
     line-height: 1.3;
 }
 
@@ -1474,10 +1475,11 @@ iframe {
     position: fixed;
     bottom: 50px;
     right: 10px;
-    width: 250px; /* Default desktop size */
-    height: 250px; /* Default desktop size */
+    width: 250px; /* Default desktop base size */
+    height: 250px; /* Default desktop base size */
     z-index: 1000; /* Below button, so button is clickable */
     pointer-events: none; /* Prevents it from blocking clicks on elements behind it */
+    transform: scale(0.5); /* Desktop default scale, controlled by CSS */
 }
 
 .start-button {
@@ -1629,12 +1631,22 @@ iframe {
         width: 280px; /* Smaller fixed width for horizontal scroll cards */
     }
     .scroll-button {
-        width: 38px; /* Smaller scroll buttons */
-        height: 38px;
-        font-size: 1rem;
+        width: 40px; /* Consistent smaller size for tablets */
+        height: 40px;
+        font-size: 1.1rem;
     }
-    .scroll-button-prev { left: -18px; }
-    .scroll-button-next { right: -18px; }
+    .scroll-button-prev { left: -5px; } /* Adjusted */
+    .scroll-button-next { right: -5px; } /* Adjusted */
+    .horizontal-scroll-wrapper {
+        padding: 0 20px; /* Added padding to give room for buttons */
+    }
+
+    /* AI Character & Button */
+    #ai-character {
+        width: 200px; /* Base size for tablet */
+        height: 200px; /* Base size for tablet */
+        transform: scale(0.4); /* Final desired scale for tablets */
+    }
 }
 
 /* Mobile Phone specific styles (481px to 768px) */
@@ -1702,11 +1714,11 @@ iframe {
 
     /* AI Character and button for 768px */
     #ai-character {
-        width: 180px;
-        height: 180px;
-        bottom: 60px; /* Moved up to avoid button */
+        width: 180px; /* Base size for mobile */
+        height: 180px; /* Base size for mobile */
+        bottom: 60px; /* Adjusted to clear button */
         right: 5px;
-        scale: 0.4 0.4 0.4;
+        transform: scale(0.3); /* Final desired scale for mobile */
     }
     .start-button {
         bottom: 15px;
@@ -1781,11 +1793,11 @@ iframe {
 
     /* AI Character and Button for 480px */
     #ai-character {
-        width: 120px;
-        height: 120px;
-        bottom: 55px;
+        width: 120px; /* Base size for very small mobile */
+        height: 120px; /* Base size for very small mobile */
+        bottom: 55px; /* Move up slightly to clear start button */
         right: 0px;
-        scale: 0.3 0.3 0.3;
+        transform: scale(0.25); /* Final desired scale for very small mobile */
     }
     .start-button {
         bottom: 10px;
@@ -1815,6 +1827,11 @@ iframe {
         font-size: 0.9rem;
         margin: 0 0.8rem;
     }
+    /* Horizontal scroll buttons */
+    .scroll-button { display: none; } /* Hide buttons on very small screens, rely on swipe */
+    .horizontal-scroll-wrapper {
+        padding: 0 10px; /* Adjust padding if buttons are hidden */
+    }
 }
 
 /* Very very small screens (e.g., width < 375px) - for extreme cases */
@@ -1827,6 +1844,19 @@ iframe {
     }
     .header-main-content {
         width: 240px;
+    }
+    .main-search-bar {
+        height: 32px; /* Even smaller search bar height */
+        padding: 0 0.5rem; /* Reduced padding */
+    }
+    .main-search-bar input { font-size: 0.75rem; }
+    .main-search-bar .icon-button {
+        width: 28px; /* Fixed size to prevent shrinking */
+        height: 28px;
+        font-size: 0.8rem;
+    }
+    .main-search-bar .search-icon-left {
+        margin-right: var(--space-1);
     }
     
     .hero-headline { font-size: clamp(1.6rem, 5vw, 2.2rem); }
@@ -1854,6 +1884,13 @@ iframe {
         height: calc(100vh - 40px);
         right: 10px;
         bottom: 10px;
+    }
+    .product-grid.horizontal-scroll .product-card-outer {
+        width: calc(100vw - 40px); /* Account for some margin/padding around card */
+        max-width: 280px;
+    }
+    .horizontal-scroll-wrapper {
+        padding: 0 5px; /* Minimal padding for extreme narrowness */
     }
 }
 
@@ -1893,11 +1930,11 @@ iframe {
 .product-grid.horizontal-scroll { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 1.5rem; padding: 1.5rem 0.5rem; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .product-grid.horizontal-scroll .product-card-outer { flex-shrink: 0; width: 300px; scroll-snap-align: start; }
 .product-grid.horizontal-scroll::-webkit-scrollbar { height: 0; width: 0; }
-.horizontal-scroll-wrapper { position: relative; margin-top: 1rem; }
+.horizontal-scroll-wrapper { position: relative; margin-top: 1rem; padding: 0 30px; /* Added padding here */ }
 .scroll-button { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; background-color: rgba(255, 255, 255, 0.95); border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 50%; width: 45px; height: 45px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #333; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); transition: all 0.2s ease-in-out; }
 .scroll-button:hover { background-color: white; transform: translateY(-50%) scale(1.1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
-.scroll-button-prev { left: -22px; }
-.scroll-button-next { right: -22px; }
+.scroll-button-prev { left: -10px; /* Adjusted */ }
+.scroll-button-next { right: -10px; /* Adjusted */ }
 
 /* Flash message styling */
 .flash-messages {
