@@ -9,7 +9,6 @@
     <meta name="description" content="Explore and purchase thousands of cutting-edge websites, AI models, and applications. Nexaur is the premier marketplace for top-tier digital solutions.">
     <meta name="keywords" content="digital marketplace, websites, ai models, applications, templates, code, developer tools">
 
-    <link rel="stylesheet" href="nex.css">
     <!-- Open Graph / Facebook Meta Tags -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.nexaur.com/">
@@ -31,41 +30,203 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
     <style>
-        /* Root variables and existing styles */
+        /*
+            ======================================
+            NEXUAR - MASTER STYLESHEET (INTEGRATED)
+            VERSION: 5.8 (Enhanced Glass UI)
+            ======================================
+        */
+        /* ============================================= */
+        /* 1. CUSTOM PROPERTIES (CSS VARIABLES)          */
+        /* ============================================= */
         :root {
+            /* Colors */
+            --color-primary-start: #a7c7f9;
+            --color-primary-end: #f1799d;
+            --color-accent-start: #ec8958;
+            --color-accent-end: #ef476f;
+            --color-text: #f6bebe; /* This color variable seems unused or intended for light text on dark bg */
+            --color-text-dark: #1a1a1a;
+            --color-text-muted: rgba(255, 255, 255, 0.7);
+            --color-text-hero: rgba(255, 255, 255, 0.9);
+            --color-white: #ffffff;
+            --color-black: #000000;
+
+            /* Gradients */
+            --gradient-primary: linear-gradient(110deg, var(--color-primary-start) 0%, #d4a5fd 70%, var(--color-primary-end) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--color-accent-start) 0%, var(--color-accent-end) 100%);
+            
+            /* Footer Gradient */
+            --gradient-footer: linear-gradient(90deg, #c5c9ed 0%, #e3c4e3 100%);
+
+            /* UI Component Colors (Enhanced for Glassmorphism) */
+            --bg-glass: rgba(245, 243, 255, 0.3); /* Base glass background, slightly more transparent */
+            --bg-glass-light: rgba(255, 255, 255, 0.2); /* Lighter version for subtle elements/inputs */
+            --bg-card: rgba(248, 130, 228, 0.65); /* Card background, less opaque */
+            --border-glass: rgba(255, 255, 255, 0.5); /* Clearer border for glass elements */
+            --border-light: #dfe6e9; /* Added for login form (for non-glass elements) */
+            
+            /* Icon Colors */
+            --icon-home: #2c2b2b;
+            --icon-profile: #3c3d3d;
+            --icon-cart: #ffffff; /* This is overridden by the global icon color later in this CSS */
+
+            /* Typography */
+            --font-primary: 'Poppins', sans-serif;
+            --fs-base: 1rem;
+            --fs-sm: 0.9rem;
+            --fs-lg: 1.1rem;
+            --fs-h1: clamp(2.5rem, 8vw, 4.5rem);
+            --fs-h2: clamp(1.8rem, 5vw, 2.5rem);
+            --fw-normal: 400;
+            --fw-medium: 600;
+            --fw-bold: 700;
+            --fw-extrabold: 800;
+            --lh-base: 1.7;
+
+            /* Spacing (based on an 8px grid system) */
+            --space-1: 0.5rem;   /* 8px */
+            --space-2: 1rem;     /* 16px */
+            --space-3: 1.5rem;   /* 24px */
+            --space-4: 2.5rem;   /* 40px */
+            --space-5: 4rem;     /* 64px */
+
+            /* Borders & Radii */
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-pill: 50px;
+            --radius-circle: 50%;
+            
+            /* Shadows (Enhanced for Glassmorphism) */
+            --shadow-sm: 0 4px 15px rgba(0,0,0,0.08);
+            --shadow-md: 0 8px 40px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 12px 50px rgba(0, 0, 0, 0.3);
+            /* Adding a subtle inner shadow for a "light refraction" effect */
+            --shadow-glass-inset: inset 0 0 0 1px rgba(255, 255, 255, 0.3); /* Subtle inner highlight */
+
+            /* Logo-specific colors & transitions (from previous inline style block) */
             --logo-primary-color: #041765;
             --logo-accent-color: #ea6a21;
-            --btn-buy-now-green: #2ecc71; /* A pleasant green color */
-            --btn-buy-now-green-dark: #27ae60; /* Darker green for hover */
-            --bg-footer: rgba(0,0,0,0.1);
-            --border-color: rgba(255, 255, 255, 0.25);
-            --color-text-muted: rgba(255, 255, 255, 0.7);
-            --color-white: #ffffff;
-            --fw-bold: 700;
-            --space-1: 0.5rem;
-            --space-2: 1rem;
-            --space-3: 1.5rem;
-            --space-4: 2.5rem;
-            --space-5: 4rem;
-            --radius-md: 16px;
-            --fs-sm: 0.9rem;
             --transition-fast: all 0.2s ease-in-out;
-            --transition-medium: all 0.3s ease-in-out; /* Added for smoother button transitions */
+            --transition-medium: all 0.3s ease-in-out;
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        body { margin: 0; font-family: 'Poppins', sans-serif; background-color: #f0f2f5; color: #333; line-height: 1.6; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
-        a { text-decoration: none; color: var(--logo-primary-color); }
-        a:hover { text-decoration: underline; }
-        h1, h2, h3 { font-weight: var(--fw-bold); color: var(--logo-primary-color); }
-        .btn { display: inline-block; padding: 0.8rem 1.5rem; border-radius: 8px; text-align: center; font-weight: 600; transition: var(--transition-medium); cursor: pointer; }
-        .btn-primary { background-color: var(--logo-primary-color); color: var(--color-white); border: 2px solid var(--logo-primary-color); }
-        .btn-primary:hover { background-color: darken(var(--logo-primary-color), 10%); border-color: darken(var(--logo-primary-color), 10%); transform: translateY(-3px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .btn-secondary { background-color: transparent; color: var(--logo-primary-color); border: 2px solid var(--logo-primary-color); }
-        .btn-secondary:hover { background-color: var(--logo-primary-color); color: var(--color-white); transform: translateY(-3px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+
+
+        /* ============================================= */
+        /* 2. RESET / NORMALIZE CSS                      */
+        /* ============================================= */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html { 
+            scroll-behavior: smooth; 
+            height: 100%; /* Needed for sticky footer */
+        }
+
+        ul { list-style: none; }
+        button, input, a { font-family: inherit; font-size: inherit; color: inherit; }
+
+        /* ============================================= */
+        /* 3. LAYOUT                                     */
+        /* ============================================= */
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin-inline: auto;
+        }
+        main {
+            flex-grow: 1; /* This makes the main content push the footer down */
+        }
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            background: var(--gradient-accent);
+            color: var(--color-white);
+            padding: var(--space-2);
+            transition: top var(--transition-smooth);
+            z-index: 9999;
+        }
+        .skip-link:focus { top: 0; }
+        .visually-hidden {
+            position: absolute; width: 1px; height: 1px;
+            margin: -1px; padding: 0; overflow: hidden;
+            clip: rect(0, 0, 0, 0); border: 0;
+        }
+
+        /* ============================================= */
+        /* 4. TYPOGRAPHY & COLORS                        */
+        /* ============================================= */
+        body {
+            font-family: var(--font-primary);
+            font-size: var(--fs-base);
+            line-height: var(--lh-base);
+            color: var(--color-text); /* This will be overridden by more specific rules for dark text */
+            background-image: var(--gradient-primary);
+            background-size: 400% 400%; /* Make background larger for animation */
+            background-attachment: fixed;
+            position: relative; 
+            overflow-x: hidden;
+            /* Adjusted border-top for a more integrated glass feel */
+            border-top: 3px solid rgba(255, 255, 255, 0.4); 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale;
+
+            /* Sticky Footer Implementation */
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+
+            /* Body Background Animation */
+            animation: gradientMove 15s ease infinite; /* Subtle background movement */
+        }
+
+        h2 {
+            font-size: var(--fs-h2);
+            text-align: center;
+            position: relative;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            margin-bottom: var(--space-5);
+            color: var(--color-white);
+        }
+        a { text-decoration: none; color: var(--color-accent-start); }
+        a:hover { color: var(--color-text-dark); } /* This will conflict with some specific link colors */
+
+        /* ============================================= */
+        /* 5. MAIN COMPONENTS & UI                       */
+        /* ============================================= */
+
+        /* --- 5.1. Component: Header & Navigation --- */
+        header {
+            background: var(--bg-glass); /* Use glass variable */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), var(--shadow-glass-inset); /* Added inner shadow */
+            padding-block: var(--space-1);
+            position: sticky; top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-glass); /* Added glass border */
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-3);
+            height: 64px;
+        }
+
+        /* Base Logo Container */
         .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
         .logo .logo-symbol { width: 50px; height: auto; }
         .logo .logo-text { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 2.2rem; color: var(--logo-primary-color); text-transform: lowercase; letter-spacing: -1.5px; display: flex; }
-        /* Logo Animation Styles - Crucial for the animation you linked */
+
+        /* Logo Animation Styles */
         .logo-symbol .pixel, .logo-symbol .cart-part, .logo-text .char { opacity: 0; }
         .logo-symbol .pixel { transform: translateY(15px); }
         .logo-symbol .cart-handle { transform: translateY(-15px); }
@@ -79,65 +240,1516 @@
         .logo.animate .pixel-1 { animation-delay: 0.0s; } .logo.animate .pixel-2 { animation-delay: 0.05s; } .logo.animate .pixel-3 { animation-delay: 0.1s; } .logo.animate .pixel-4 { animation-delay: 0.15s; } .logo.animate .pixel-5 { animation-delay: 0.2s; }
         .logo.animate .pixel-special { animation-delay: 0.25s; filter: drop-shadow(0 0 5px var(--logo-accent-color)); }
         .logo.animate .cart-wheel-1 { animation-delay: 0.4s; } .logo.animate .cart-wheel-2 { animation-delay: 0.45s; } .cart-handle { animation-delay: 0.5s; }
-        @keyframes popIn { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes rollIn { from { transform: translateX(-15px) rotate(-180deg); opacity: 0; } to { transform: translateX(0) rotate(0); opacity: 1; } }
-        @keyframes slideIn { from { transform: translateY(-15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes slideUpIn { to { opacity: 1; transform: translateY(0) scale(1); } }
-        /* End Logo Animation Styles */
 
-        header { background-color: #fff; padding: 1rem 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        header .container { display: flex; justify-content: space-between; align-items: center; }
-        .header-main-content { display: flex; align-items: center; flex-grow: 1; gap: 1.5rem; margin-left: 2rem; }
-        .header-search { flex-grow: 1; position: relative; }
-        .main-search-bar { display: flex; align-items: center; background-color: #ffffff; border-radius: 50px; padding: 8px 15px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); transition: box-shadow 0.2s ease-in-out; }
-        #main-search-input { flex-grow: 1; border: none; outline: none; background-color: transparent; font-size: 1rem; font-family: 'Poppins', sans-serif; width: 100%; color: #202124; }
-        #main-search-input::placeholder { color: #80868b; }
-        .main-search-bar .icon-button { background: transparent; border: none; cursor: pointer; padding: 0 4px; color: #5f6368; font-size: 1.1rem; margin-left: 8px; }
-        .search-submit-button { margin-left: 0; margin-right: 12px; padding-left: 0; padding-right: 0; }
-        .main-search-bar .clear-button { visibility: hidden; opacity: 0; transition: opacity 0.2s ease; }
-        .main-search-bar input:not(:placeholder-shown) + .clear-button { visibility: visible; opacity: 1; }
-        .header-nav-actions { display: flex; align-items: center; gap: 1.5rem; }
-        .header-option { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #555; font-size: 0.9rem; transition: transform 0.2s ease-out, color 0.2s ease-out; }
-        .header-option i { font-size: 1.4rem; margin-bottom: 5px; color: var(--logo-primary-color); }
-        .header-option:hover { transform: translateY(-3px); color: var(--logo-accent-color); }
-        .header-option:hover i { color: var(--logo-accent-color); }
-        .user-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; box-shadow: 0 0 5px rgba(0,0,0,0.2); }
-        .cart-icon-wrapper { position: relative; display: inline-block; }
-        .cart-count { position: absolute; top: -5px; right: -10px; background-color: var(--logo-accent-color); color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.7em; font-weight: bold; display: none; justify-content: center; align-items: center; min-width: 18px; height: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
 
-        .menu-toggle { display: none; /* Hidden on desktop */ font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--logo-primary-color); }
-        .hamburger-bar { width: 25px; height: 3px; background-color: var(--logo-primary-color); margin: 5px 0; transition: 0.4s; display: block; }
-        
-        .hero-section { position: relative; width: 100%; height: 70vh; display: flex; align-items: center; justify-content: center; overflow: hidden; color: white; text-align: center; }
-        .hero-background-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
-        .hero-content { z-index: 1; padding: 2rem; max-width: 800px; display: flex; flex-direction: column; align-items: center; }
-        .hero-headline { font-size: 3.5rem; margin-bottom: 1rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.4); }
-        .hero-subheadline { font-size: 1.3rem; margin-bottom: 2rem; opacity: 0.9; text-shadow: 1px 1px 6px rgba(0,0,0,0.3); }
-        .hero-cta-buttons { display: flex; gap: 1.5rem; }
-        .hero-cta-buttons .btn { padding: 1rem 2rem; font-size: 1.1rem; }
-        .hero-visual { position: absolute; bottom: 0; right: 0; z-index: 0; }
-        .hero-character-image { max-width: 450px; height: auto; display: block; }
-        .floating-element { position: absolute; background-color: rgba(255,255,255,0.2); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); border-radius: 50%; padding: 15px; font-size: 1.5rem; color: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .icon-1 { top: 20%; left: 10%; } .icon-2 { top: 70%; left: 5%; } .icon-3 { bottom: 20%; right: 10%; }
+        .header-main-content {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            gap: var(--space-4);
+        }
+        .header-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        .header-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: var(--space-1);
+            border-radius: var(--radius-sm);
+            color: var(--color-text-dark);
+            transition: transform var(--transition-fast), background-color var(--transition-fast);
+        }
+        /* Enhanced header option hover animation */
+        .header-option:hover,
+        .header-option:focus-visible {
+            background-color: rgba(0,0,0,0.08); /* Slightly more opaque on hover */
+            transform: scale(1.1) translateY(-2px); /* Slight lift and scale */
+            animation: pop 0.3s ease-out; /* Add a subtle pop animation */
+        }
+        .header-option .option-text {
+            font-size: 0.75rem;
+            font-weight: var(--fw-medium);
+        }
+        .header-option i {
+            font-size: 1.4rem;
+            transition: transform 0.2s ease-in-out; /* Add transition for icon */
+        }
+        .header-option:hover i {
+            transform: rotate(5deg); /* Subtle rotation on icon hover */
+        }
+        /* Specific header options icons colors from old inline CSS - retained */
+        .header-option--home i { color: var(--logo-primary-color); } /* Used existing logo primary color */
+        .header-option--profile i { color: var(--logo-primary-color); } /* Used existing logo primary color */
+        .header-option--cart i { color: var(--logo-primary-color); } /* Used existing logo primary color */
+
+        .cart-icon-wrapper { position: relative; }
+        .cart-count {
+            position: absolute; top: -4px; right: -8px;
+            background-color: var(--logo-accent-color); /* Used the accent color from the root vars */
+            color: var(--color-white);
+            border-radius: var(--radius-circle);
+            font-size: 0.65rem;
+            font-weight: var(--fw-bold);
+            line-height: 1;
+            width: 16px; height: 16px;
+            display: grid;
+            place-content: center;
+            border: 2px solid var(--color-white);
+            animation: bounceIn 0.5s ease-out; /* Animation for when cart count updates */
+        }
+        .user-avatar { /* From original inline style */
+            width: 40px; /* Adjust size as needed */
+            height: 40px; /* Adjust size as needed */
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--color-white); /* Optional border */
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+
+        /* --- 5.2. Component: Header Search Bar --- */
+        .header-search {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            max-width: 700px;
+            margin-inline: auto;
+        }
+        .main-search-bar {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            background: var(--bg-glass-light); /* Use glass-light variable */
+            backdrop-filter: blur(8px); /* Added blur for search bar */
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: var(--radius-pill);
+            padding: 0 var(--space-2) 0 var(--space-3);
+            box-shadow: var(--shadow-sm), var(--shadow-glass-inset); /* Added inner shadow */
+            border: 1px solid var(--border-glass); /* Added glass border */
+            height: 48px;
+            transition: box-shadow var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast);
+        }
+        .main-search-bar:focus-within {
+             box-shadow: 0 5px 20px rgba(0,0,0,0.15), var(--shadow-glass-inset); /* Maintain inner shadow on focus */
+             transform: scale(1.01); /* Subtle scale on focus */
+             border-color: rgba(255, 255, 255, 0.7); /* Brighter border on focus */
+        }
+        .main-search-bar .search-icon-left {
+            color: #5f6368;
+            font-size: 1.1rem;
+            margin-right: var(--space-2);
+            flex-shrink: 0;
+        }
+        .main-search-bar input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 1rem;
+            color: var(--color-text-dark);
+            height: 100%;
+            min-width: 0;
+        }
+        .main-search-bar input::placeholder {
+            color: #80868b;
+            opacity: 1;
+        }
+        .main-search-bar .icon-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: var(--space-1);
+            color: #5f6368;
+            font-size: 1.25rem;
+            line-height: 1;
+            border-radius: var(--radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color var(--transition-fast), transform var(--transition-fast);
+            flex-shrink: 0;
+        }
+        .main-search-bar .icon-button:hover,
+        .main-search-bar .icon-button:focus-visible {
+            background-color: rgba(0, 0, 0, 0.05);
+            transform: scale(1.1); /* Pop effect on icon buttons */
+        }
+        .main-search-bar .clear-button {
+            visibility: hidden; /* Controlled by JS, but default hidden */
+            opacity: 0; /* Controlled by JS, but default hidden */
+            transition: opacity 0.2s ease;
+        }
+        .main-search-bar input:not(:placeholder-shown) + .clear-button {
+            visibility: visible; opacity: 1;
+        }
+        #mainVoiceSearchBtn.icon-button {
+            color: #4285f4;
+            margin-left: var(--space-1);
+        }
+        .colorful-logo-button {
+            display: none;
+        }
+
+        /* --- 5.3. Component: ENHANCED HERO SECTION --- */
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+            align-items: center;
+            gap: var(--space-4);
+            min-height: 85vh;
+            padding: var(--space-5) 0;
+            width: 100%;
+            margin-inline: auto;
+            display: grid;
+            /* Initial state for slide-in animation */
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInSlideUp 0.8s 0.2s ease-out forwards;
+        }
+        .hero-section .container {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            align-items: center;
+            gap: var(--space-4);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hero section specific animations */
         .hero-content > *, .hero-visual > * { opacity: 0; transition: opacity 0.8s ease, transform 0.8s ease; }
+        .hero-section.animate-in .hero-content > *, .hero-section.animate-in .hero-visual > * { opacity: 1; transform: translateY(0) scale(1); }
         .hero-headline { transform: translateY(20px); transition-delay: 1.0s !important; }
         .hero-subheadline { transform: translateY(20px); transition-delay: 1.2s !important; }
         .hero-cta-buttons { transform: translateY(20px); transition-delay: 1.4s !important; }
         .hero-character-image { transform: scale(0.9); transition-delay: 1.6s !important; }
-        .hero-section.animate-in .hero-content > *, .hero-section.animate-in .hero-visual > * { opacity: 1; transform: translateY(0) scale(1); }
 
-        .start-button {
-            position: fixed; bottom: 20px; right: 20px; z-index: 950;
-            padding: 15px 25px; border-radius: 50px; font-size: 1.1rem; font-weight: bold;
-            color: white; display: flex; align-items: center; gap: 10px; cursor: pointer;
-            border: none; outline: none; background: linear-gradient(90deg, #8a2be2, #4169e1);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); transition: all 0.3s ease;
-            animation: pulseGlow 2.5s infinite ease-in-out;
+        .hero-background-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 130%;
+            min-height: 130%;
+            width: auto;
+            height: auto;
+            z-index: -1; 
+            object-fit: cover;
+            pointer-events: none; /* Prevents video from capturing mouse events */
         }
-        .start-button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); background: linear-gradient(90deg, #9932cc, #5a7bd7); }
-        #ai-character { position: fixed; bottom: 60px; right: 20px; width: 300px; height: 300px; pointer-events: none; z-index: 999; }
+        .hero-content {
+            padding-right: var(--space-4);
+            /* animation already defined on .hero-section for overall fade-in */
+        }
+        .hero-headline {
+            font-size: var(--fs-h1);
+            font-weight: var(--fw-extrabold);
+            line-height: 1.2;
+            color: var(--color-white);
+            text-shadow: 0px 4px 20px rgba(0,0,0,0.5); 
+            margin-bottom: var(--space-4);
+            text-align: left;
+            /* Add subtle text animation on load */
+            animation: textAppear 1s ease-out backwards;
+        }
+        .hero-subheadline {
+            font-size: var(--fs-lg);
+            color: var(--color-text-hero);
+            line-height: var(--lh-base);
+            max-width: 45ch;
+            text-shadow: 0px 2px 10px rgba(0,0,0,0.5);
+            animation: textAppear 1s 0.3s ease-out backwards; /* Delayed animation */
+        }
+        .hero-cta-buttons {
+            display: flex;
+            gap: var(--space-3);
+            margin-top: var(--space-4);
+            align-items: center;
+            animation: fadeInSlideUp 0.8s 0.5s ease-out backwards; /* Delayed animation */
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            font-weight: var(--fw-medium);
+            transition: var(--transition-smooth);
+            text-align: center;
+            text-decoration: none;
+            position: relative; /* For shine effect */
+            overflow: hidden; /* For shine effect */
+            z-index: 1;
+        }
+        .btn-primary {
+            color: var(--color-white);
+            background: var(--gradient-accent);
+            box-shadow: 0 4px 20px rgba(110, 31, 31, 0.25);
+        }
+        .btn-primary:hover, .btn-primary:focus-visible {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 8px 25px rgba(110, 31, 31, 0.35);
+            filter: brightness(1.1);
+            animation: pulseScale 0.4s ease-out; /* Add subtle pulse */
+        }
+        /* New :active state for primary button */
+        .btn-primary:active {
+            transform: translateY(0px) scale(0.98); /* Push slightly down and shrink */
+            filter: brightness(0.9); /* Slightly dim */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Smaller shadow */
+            transition: transform 0.1s ease-out, filter 0.1s ease-out, box-shadow 0.1s ease-out; /* Quick transition */
+        }
 
-        /* Chat Box Styles (from chat.css - simplified/combined) */
+        .btn-secondary {
+            color: var(--color-white);
+            background: rgba(255, 255, 255, 0.15); /* Slightly more opaque for better visibility */
+            border: 1px solid var(--border-glass); /* Use glass border */
+            backdrop-filter: blur(5px); /* Added subtle blur for secondary buttons */
+            -webkit-backdrop-filter: blur(5px);
+            box-shadow: var(--shadow-glass-inset); /* Added inner shadow */
+        }
+        .btn-secondary:hover, .btn-secondary:focus-visible {
+            background: rgba(255, 255, 255, 0.25); /* More opaque on hover */
+            border-color: rgba(255, 255, 255, 0.7); /* Brighter border on hover */
+            transform: translateY(-2px);
+            animation: pop 0.3s ease-out;
+        }
+        /* New :active state for secondary button */
+        .btn-secondary:active {
+            background: rgba(255, 255, 255, 0.3); /* Even more opaque on click */
+            border-color: rgba(255, 255, 255, 0.8); /* Brighter border on click */
+            transform: translateY(0px) scale(0.98); /* Press slightly down */
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1); /* Inset shadow for pressed feel */
+            transition: background 0.1s ease-out, border-color 0.1s ease-out, transform 0.1s ease-out, box-shadow 0.1s ease-out;
+        }
+        .btn-secondary i {
+            font-size: 1.2em;
+        }
+        .hero-visual {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 1s 0.4s ease-out backwards;
+            padding-left: var(--space-3);
+        }
+        .hero-character-image {
+            position: relative;
+            max-width: 100%;
+            height: auto;
+            z-index: 5;
+            filter: drop-shadow(0 25px 40px rgba(30, 0, 10, 0.3));
+            transition: var(--transition-smooth);
+        }
+        .hero-character-image:hover {
+            transform: scale(1.02) translateY(-5px); 
+        }
+        .floating-element {
+            position: absolute;
+            background: var(--bg-glass-light); /* Use glass-light variable */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass); /* Use glass border */
+            box-shadow: var(--shadow-md), var(--shadow-glass-inset); /* Added inner shadow */
+            border-radius: var(--radius-circle);
+            display: grid;
+            place-content: center;
+            color: var(--color-white);
+            z-index: 10;
+        }
+        /* Applied adjusted float animation */
+        .floating-element.icon-1 { top: 15%; left: 0%; width: 60px; height: 60px; font-size: 1.5rem; animation: float-adjusted 7s ease-in-out infinite; }
+        .floating-element.icon-2 { top: 5%; right: 15%; width: 80px; height: 80px; font-size: 2rem; animation: float-adjusted 10s ease-in-out infinite; animation-delay: -2s; }
+        .floating-element.icon-3 { bottom: 10%; right: 5%; width: 70px; height: 70px; font-size: 1.6rem; animation: float-adjusted 9s ease-in-out infinite; animation-delay: -4s;}
+        .floating-element.icon-4 { bottom: 12%; left: -5%; width: 50px; height: 50px; font-size: 1.2rem; animation: float-adjusted 6s ease-in-out infinite; }
+        .floating-element.icon-5 { top: 60%; right: -5%; width: 45px; height: 45px; animation: float-adjusted 8s ease-in-out infinite; animation-delay: -1s; }
+        .floating-element.shape-1 { top: 50%; left: 10%; width: 25px; height: 25px; animation: float-adjusted 12s ease-in-out infinite; }
+        .floating-element.shape-2 { bottom: 25%; right: 25%; width: 35px; height: 35px; animation: float-adjusted 11s ease-in-out infinite; animation-delay: -5s; }
+
+        /* --- 5.4. Component: Product Card --- */
+        .product-grid-section { padding: var(--space-4) 0; }
+        /* Adjusted .product-grid for the primary product listings - standard grid */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: var(--space-2); }
+        
+        /* Outer container for the product card, provides consistent sizing */
+        .product-card-outer { /* This was moved from inline CSS in the previous step */
+            display: flex;
+            flex-direction: column;
+            background-color: var(--color-white); /* Default white, overridden by .product-card below */
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* The link that makes the main content of the card clickable */
+        .product-card-content-link { /* This was moved from inline CSS in the previous step */
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            cursor: pointer;
+        }
+
+        /* Hover effect for the entire clickable part of the card (outer wrapper) */
+        .product-card-outer:hover { /* This was moved from inline CSS in the previous step */
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        /* Make product name/heading change color on hover of the *outer* card */
+        .product-card-outer:hover .product-name-heading { /* This was moved from inline CSS in the previous step */
+            color: var(--logo-accent-color);
+        }
+
+        /* Styles for the actual product-card content (within the link) */
+        .product-card { /* Main glassmorphism styles applied here */
+            background-color: var(--bg-card); /* Use glass card variable */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glass); /* Use glass border */
+            border-radius: var(--radius-md);
+            overflow: hidden; /* Important for inner elements to respect border-radius */
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-md), var(--shadow-glass-inset); /* Added inner shadow */
+            transition: var(--transition-smooth);
+            animation: fadeInSlideUp 0.6s ease-out backwards; /* Initial animation */
+            flex-grow: 1; /* Ensures this inner card also fills space if needed */
+        }
+        /* Individual card delays */
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.4s; }
+        .product-card:nth-child(5) { animation-delay: 0.5s; }
+        .product-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .product-card:hover, .product-card:focus-within {
+            transform: translateY(-10px) scale(1.02); /* Slight scale on hover */
+            box-shadow: var(--shadow-lg), var(--shadow-glass-inset); /* Maintain inner shadow on hover */
+            border-color: rgba(255, 255, 255, 0.7); /* Brighter border on hover */
+        }
+        
+        /* NEW CSS for the category header within product cards */
+        .product-card-header { /* This was moved from inline CSS in the previous step */
+            height: 40px;
+            border-top-left-radius: 11px;
+            border-top-right-radius: 11px;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            font-weight: 600;
+            color: white;
+            text-transform: capitalize;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        .product-image { /* This was moved from inline CSS in the previous step */
+            width: 100%;
+            height: 200px; /* Fixed height for consistent card appearance */
+            object-fit: cover;
+            border-bottom: 1px solid #eee; /* Separator for image */
+            /* Ensure image doesn't have top border-radius if header is above it */
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .card-body { /* This was moved from inline CSS in the previous step */
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-name-heading { /* This was moved from inline CSS in the previous step */
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--color-text-dark); /* Default text color, but within card uses white */
+            line-height: 1.3;
+        }
+
+        .long-description-summary { /* This was moved from inline CSS in the previous step */
+            font-size: 0.9em;
+            color: var(--color-text-hero); /* Adjusted for readability on glass card */
+            margin-bottom: 0.5rem;
+            flex-grow: 1;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            min-height: 3em;
+            line-height: 1.5em;
+        }
+
+        .price { /* This from nex.css is better, replacing old .product-price */
+            font-size: 1.8rem; 
+            font-weight: var(--fw-bold); 
+            color: var(--color-white); 
+            margin-top: 10px; /* Space between description and price */
+            margin-bottom: 0; /* Remove bottom margin */
+        }
+
+        /* Styles for the action buttons area (outside the main card link) */
+        .card-actions { /* This was moved from inline CSS in the previous step */
+            padding: 15px;
+            border-top: 1px solid #eee;
+            background-color: #f8f9fa; /* Remains opaque for button contrast */
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-actions .add-to-cart-btn { /* This was moved from inline CSS in the previous step, adjusted */
+            width: 100%;
+            padding: 12px 5px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition-medium);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-white); /* White background */
+            color: var(--logo-primary-color); /* Primary text color */
+        }
+
+        .card-actions .add-to-cart-btn:hover { /* This was moved from inline CSS in the previous step */
+            background-color: var(--logo-primary-color);
+            color: var(--color-white);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            border-color: var(--logo-primary-color);
+        }
+
+        .card-actions .add-to-cart-btn.added { /* This was moved from inline CSS in the previous step */
+            background-color: #28a745;
+            color: white;
+            pointer-events: none;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.277);
+            animation: buttonAdded 0.6s ease-out forwards;
+        }
+
+        .card-actions .add-to-cart-btn.adding { /* This was moved from inline CSS in the previous step */
+            background-color: #3498db;
+            color: white;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.4);
+            transform: scale(1.02);
+        }
+
+        /* Universal Share Button Styles */
+        .share-container { /* This was moved from inline CSS in the previous step */
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            padding-bottom: 15px;
+            background-color: #f8f9fa; /* Match card-actions background */
+            border-top: 1px solid #eee; /* Separator if not already from card-actions */
+        }
+
+        .universal-share-btn { /* This was moved from inline CSS in the previous step */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #4A90E2;
+            color: white;
+            font-size: 1.5rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+            outline: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .universal-share-btn:hover { /* This was moved from inline CSS in the previous step */
+            background-color: #357ABD;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.35);
+        }
+
+        .universal-share-btn i { /* This was moved from inline CSS in the previous step */
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+
+        /* --- 5.4a. Component: Product Size Selector ("SIZ") --- */
+        .product-sizes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            margin-bottom: var(--space-3); /* Space between sizes and price */
+        }
+
+        .size-option {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 44px; /* Minimum touch target size */
+            height: 44px;
+            padding: 0 var(--space-1);
+            border: 2px solid var(--border-glass); /* Use glass border */
+            background-color: var(--bg-glass-light); /* Use glass-light background */
+            backdrop-filter: blur(5px); /* Added blur for size options */
+            -webkit-backdrop-filter: blur(5px);
+            color: var(--color-white);
+            border-radius: var(--radius-sm);
+            font-weight: var(--fw-medium);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            box-shadow: var(--shadow-glass-inset); /* Added inner shadow */
+        }
+
+        .size-option:hover {
+            background-color: rgba(255, 255, 255, 0.3); /* More opaque on hover */
+            border-color: rgba(255, 255, 255, 0.7); /* Brighter border on hover */
+            transform: translateY(-2px); /* Subtle lift */
+        }
+
+        .size-option.active {
+            background: var(--gradient-accent);
+            border-color: transparent; /* Remove border when active */
+            color: var(--color-white);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-sm); /* Use a standard shadow for active gradient */
+            animation: pop 0.3s ease-out; /* Pop effect when active */
+        }
+
+        .size-option:focus-visible {
+            outline: 2px solid var(--color-white);
+            outline-offset: 2px;
+        }
+
+        /*
+           ========================================================================
+           --- START OF INTEGRATED LOGIN PAGE SECTION ---
+           ========================================================================
+        */
+
+        /* --- 5.5. Component: Login Page --- */
+        /* Note: body-login class will not apply to the main page body in this merged file. */
+        .body-login {
+            background-image: linear-gradient(110deg, #9cbce9 0%, #e6a7c3 100%);
+            background-size: 400% 400%; /* For background animation */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row; 
+            padding: var(--space-2);
+            color: var(--color-text-dark);
+            animation: gradientMove 15s ease infinite; /* Apply background animation */
+            min-height: 100vh; /* Ensure it takes full height if applied to a container */
+            flex-grow: 1; /* Make it take available space */
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .login-card {
+            background: var(--bg-glass); /* Use glass variable */
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px); 
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-glass); /* Use glass border */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15), var(--shadow-glass-inset); /* Added inner shadow */
+            padding: 2.5rem 3rem;
+            text-align: center;
+            /* Animation for the card itself */
+            animation: fadeInScale 0.6s ease-out backwards;
+        }
+
+        /*
+           ===================================================================
+           ==>   BIG LOGO UPDATE: Increased the logo and text size         <==
+           ===================================================================
+        */
+        .body-login .logo { /* This targets the logo specifically within a hypothetical login body */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2.5rem; /* More space for the big logo */
+            gap: 15px; /* More space between icon and text */
+        }
+        .body-login .logo .logo-symbol { /* This targets the logo specifically within a hypothetical login body */
+            width: 65px; /* Significantly bigger icon */
+            /* Animation for the logo symbol */
+            animation: rotateIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        .body-login .logo .logo-text { /* This targets the logo specifically within a hypothetical login body */
+            font-size: 2.8rem; /* Significantly bigger text */
+            display: flex; 
+        }
+        /* =================================================================== */
+
+        /* Logo Text Animation for Login/Signup Pages */
+        .body-login .logo .logo-text .char { /* This targets the logo specifically within a hypothetical login body */
+            display: inline-block; 
+            opacity: 0;
+            transform: translateY(15px);
+            animation: slideUpAndFadeIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        .body-login .logo .logo-text .char:nth-child(1) { animation-delay: 0.1s; }
+        .body-login .logo .logo-text .char:nth-child(2) { animation-delay: 0.15s; }
+        .body-login .logo .logo-text .char:nth-child(3) { animation-delay: 0.2s; }
+        .body-login .logo .logo-text .char:nth-child(4) { animation-delay: 0.25s; }
+        .body-login .logo .logo-text .char:nth-child(5) { animation-delay: 0.3s; }
+        .body-login .logo .logo-text .char:nth-child(6) { animation-delay: 0.35s; }
+
+
+        .login-card h2 {
+            font-size: 1.8rem;
+            font-weight: var(--fw-bold);
+            color: var(--color-text-dark);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); 
+            text-align: center;
+            margin-bottom: 0.25rem;
+            animation: fadeIn 0.8s 0.6s ease-out backwards;
+        }
+        .login-card h2::after {
+            display: none; /* Override default h2 underline */
+        }
+
+        .login-card .subtitle {
+            color: #4a4a4a; 
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            animation: fadeIn 0.8s 0.7s ease-out backwards;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+            text-align: left;
+            animation: fadeInSlideUp 0.8s 0.8s ease-out backwards;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: var(--fw-medium);
+            font-size: var(--fs-sm);
+            margin-bottom: var(--space-1);
+            color: #333; 
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            background-color: var(--bg-glass-light); /* Use glass-light background */
+            border: 1px solid var(--border-glass); /* Use glass border */
+            font-size: 1rem;
+            color: var(--color-text-dark); 
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            box-shadow: var(--shadow-glass-inset); /* Added inner shadow */
+        }
+        .form-group input::placeholder {
+            color: #6c757d;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.4); /* Slightly more opaque on focus */
+            border-color: rgba(255, 255, 255, 0.8); /* Brighter border on focus */
+            box-shadow: 0 0 0 3px rgba(239, 71, 111, 0.2), var(--shadow-glass-inset); /* Maintain inner shadow on focus */
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: -0.5rem;
+        }
+
+        a.forgot-password {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: var(--fw-medium);
+            transition: color var(--transition-fast);
+        }
+
+        a.forgot-password:hover {
+            color: var(--color-accent-end);
+        }
+
+        .btn-login {
+            background: var(--gradient-accent);
+            color: var(--color-white);
+            border: none;
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            font-size: 1.1rem;
+            font-weight: var(--fw-medium);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            margin-top: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative; overflow: hidden; z-index: 1; /* For shine effect */
+        }
+
+        .btn-login:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            animation: pulseScale 0.4s ease-out;
+        }
+        /* New :active state for login button */
+        .btn-login:active {
+            transform: translateY(0px) scale(0.98);
+            filter: brightness(0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.1s ease-out, filter 0.1s ease-out, box-shadow 0.1s ease-out;
+        }
+
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 2rem 0;
+            color: #4a4a4a;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-glass); /* Use glass border */
+        }
+
+        .divider:not(:empty)::before { margin-right: .5em; }
+        .divider:not(:empty)::after { margin-left: .5em; }
+
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .btn-social {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-weight: var(--fw-medium);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            background-color: var(--bg-glass-light); /* Use glass-light background */
+            border: 1px solid var(--border-glass); /* Use glass border */
+            backdrop-filter: blur(5px); /* Added blur for social buttons */
+            -webkit-backdrop-filter: blur(5px);
+            color: var(--color-text-dark);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-glass-inset); /* Added inner shadow */
+        }
+
+        .btn-social:hover {
+            transform: translateY(-2px);
+            background-color: rgba(255, 255, 255, 0.3); /* More opaque on hover */
+            border-color: rgba(255, 255, 255, 0.7); /* Brighter border on hover */
+            box-shadow: var(--shadow-sm), var(--shadow-glass-inset); /* Enhance shadow on hover */
+            animation: pulseScale 0.4s ease-out; /* Add subtle pulse */
+        }
+        /* New :active state for social buttons */
+        .btn-social:active {
+            transform: translateY(0px) scale(0.98);
+            background-color: rgba(255, 255, 255, 0.15); /* Slightly more opaque on click */
+            box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1); /* Subtle inset shadow */
+            transition: transform 0.1s ease-out, background-color 0.1s ease-out, box-shadow 0.1s ease-out;
+        }
+
+        .btn-social i {
+            font-size: 1.2rem;
+        }
+        .btn-social.google i { color: #DB4437; }
+        .btn-social.github i { color: #333; }
+
+        .signup-link {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .signup-link a {
+            color: var(--color-accent-end);
+            font-weight: var(--fw-bold);
+            text-decoration: none;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+            animation: textPulse 0.3s ease-out; /* Subtle pulse on link hover */
+        }
+
+        /*
+           ========================================================================
+           --- END OF INTEGRATED LOGIN PAGE SECTION ---
+           ========================================================================
+        */
+
+
+        /*
+           ========================================================================
+           --- START OF CORRECTED FOOTER SECTION ---
+           ========================================================================
+        */
+
+        /* --- 5.6. Component: FIXED FOOTER (Multi-Column) --- */
+        footer {
+            background: var(--gradient-footer);
+            background-size: 400% 400%; /* For background animation */
+            padding: var(--space-5) 0 var(--space-3); /* More padding on top */
+            margin-top: auto; /* Pushes footer to the bottom */
+            color: var(--color-text-dark); /* Using dark text for readability on light gradient */
+            flex-shrink: 0; /* Prevents footer from shrinking */
+            font-size: var(--fs-sm);
+            animation: gradientMove 15s ease infinite reverse; /* Apply background animation, reversed */
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: var(--space-4); /* Consistent spacing between columns */
+            margin-bottom: var(--space-4);
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 220px; /* Prevents columns from getting too narrow before wrapping */
+        }
+
+        .footer-col h3 {
+            font-weight: var(--fw-bold);
+            color: var(--color-text-dark);
+            font-size: var(--fs-lg);
+            margin-bottom: var(--space-3);
+            position: relative;
+            padding-bottom: var(--space-1);
+            /* Add a subtle animation to footer headings */
+            animation: slideInFromLeft 0.7s ease-out backwards;
+        }
+        .footer-col:nth-child(2) h3 { animation-delay: 0.1s; }
+        .footer-col:nth-child(3) h3 { animation-delay: 0.2s; }
+        .footer-col:nth-child(4) h3 { animation-delay: 0.3s; }
+
+        /* Decorative underline for footer headings */
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--gradient-accent);
+            animation: underlineGrow 1s ease-out forwards; /* Underline animation */
+        }
+
+        .footer-col p {
+            line-height: var(--lh-base);
+            opacity: 0.9;
+            animation: fadeIn 0.8s ease-out backwards;
+            animation-delay: 0.4s;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-col ul li {
+            margin-bottom: var(--space-2);
+            display: flex;
+            align-items: flex-start;
+            animation: fadeInSlideUp 0.7s ease-out backwards;
+        }
+        .footer-col ul li:nth-child(1) { animation-delay: 0.5s; }
+        .footer-col ul li:nth-child(2) { animation-delay: 0.6s; }
+        .footer-col ul li:nth-child(3) { animation-delay: 0.7s; }
+        .footer-col ul li:nth-child(4) { animation-delay: 0.8s; }
+
+
+        .footer-col ul li i {
+            margin-right: var(--space-2);
+            color: var(--color-accent-end);
+            font-size: 1.1em;
+            padding-top: 4px; /* Better vertical alignment */
+        }
+
+        .footer-col a {
+            color: var(--color-text-dark);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .footer-col a:hover {
+            color: var(--color-accent-end);
+            padding-left: 5px; /* Slight indent on hover */
+            animation: textPulse 0.3s ease-out; /* Subtle pulse on link hover */
+        }
+
+        /* Social Links styling */
+        .social-links a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.08); /* Retain original light background */
+            margin: 0 var(--space-1) var(--space-1) 0;
+            border-radius: var(--radius-circle);
+            color: var(--color-text-dark);
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+            animation: popIn 0.5s ease-out backwards; /* Pop in animation for social icons */
+        }
+        .social-links a:nth-child(1) { animation-delay: 0.6s; }
+        .social-links a:nth-child(2) { animation-delay: 0.7s; }
+        .social-links a:nth-child(3) { animation-delay: 0.8s; }
+        .social-links a:nth-child(4) { animation-delay: 0.9s; }
+
+        .social-links a:hover {
+            background: var(--gradient-accent);
+            color: var(--color-white);
+            transform: translateY(-4px) scale(1.1); /* Lift and scale */
+            box-shadow: var(--shadow-sm);
+            animation: pulseScale 0.4s ease-out; /* Subtle pulse */
+        }
+
+        /* Newsletter Form styling */
+        .newsletter-form {
+            display: flex;
+            margin-top: var(--space-2);
+            border-radius: var(--radius-pill);
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            animation: slideInFromRight 0.7s 0.5s ease-out backwards;
+        }
+        .newsletter-form input {
+            flex-grow: 1;
+            padding: var(--space-2);
+            border: 1px solid var(--border-glass); /* Use glass border */
+            background-color: var(--bg-glass); /* Use glass variable */
+            color: var(--color-text-dark);
+            outline: none;
+            border-right: none;
+            min-width: 0;
+            transition: all var(--transition-fast);
+            backdrop-filter: blur(8px); /* Added blur for input */
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: var(--shadow-glass-inset); /* Added inner shadow */
+        }
+        .newsletter-form input::placeholder {
+            color: var(--color-text-dark);
+            opacity: 0.7;
+        }
+        .newsletter-form input:focus {
+            background-color: rgba(255, 255, 255, 0.4); /* More opaque on focus */
+            border-color: rgba(255, 255, 255, 0.8); /* Brighter border on focus */
+        }
+        .newsletter-form button {
+            padding: 0 var(--space-3);
+            border: none;
+            background: var(--gradient-accent);
+            color: var(--color-white);
+            cursor: pointer;
+            font-weight: var(--fw-medium);
+            transition: var(--transition-fast);
+        }
+        .newsletter-form button:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px); /* Subtle lift */
+            animation: pulseScale 0.4s ease-out;
+        }
+
+        /* Footer Bottom Bar */
+        .footer-bottom {
+            text-align: center;
+            padding-top: var(--space-3);
+            border-top: 1px solid var(--border-glass); /* Use glass border */
+            font-size: var(--fs-sm);
+            opacity: 0.8;
+            animation: fadeIn 0.8s 1s ease-out backwards;
+        }
+
+        /*
+           ========================================================================
+           --- END OF CORRECTED FOOTER SECTION ---
+           ========================================================================
+        */
+
+        /* --- 5.7. Component: Hamburger Menu & Responsive --- */
+        .menu-toggle { 
+            display: none; background: none; border: none; cursor: pointer;
+            padding: 10px; position: relative; width: 48px; height: 48px;
+            z-index: 2000;
+        }
+        .hamburger-bar {
+            display: block; width: 28px; height: 3px;
+            background-color: var(--color-text-dark);
+            border-radius: var(--radius-pill); box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        .hamburger-bar + .hamburger-bar { margin-top: 6px; }
+
+        /* --- 5.8. Component: Media (Video & Embeds) --- */
+        video,
+        iframe {
+            max-width: 100%;
+            height: auto;
+            display: block; 
+            border-radius: var(--radius-md); 
+            border: none;
+        }
+        .responsive-video-wrapper {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+        .responsive-video-wrapper iframe,
+        .responsive-video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Prevents video from stretching/distorting */
+        }
+        .background-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            z-index: -1; 
+            pointer-events: none; 
+        }
+
+        /* ============================================= */
+        /* 6. INTERACTIVITY & ANIMATIONS                 */
+        /* ============================================= */
+        h2::after {
+            content: ''; position: absolute; bottom: -10px; left: 50%;
+            transform: translateX(-50%); width: 80px; height: 4px;
+            background: var(--gradient-accent); border-radius: var(--radius-sm);
+        }
+
+        /* Original float animation */
+        @keyframes float {
+          0% { transform: translate(-50%, 0px) rotate(0deg); }
+          50% { transform: translate(-50%, -25px) rotate(15deg); }
+          100% { transform: translate(-50%, 0px) rotate(0deg); }
+        }
+
+        /* Adjusted float animation for elements with fixed left/top positions */
+        @keyframes float-adjusted {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slideUpAndFadeIn { /* Used by login logo text */
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Specific Logo Keyframe Animations */
+        @keyframes popIn { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes rollIn { from { transform: translateX(-15px) rotate(-180deg); opacity: 0; } to { transform: translateX(0) rotate(0); opacity: 1; } }
+        @keyframes slideIn { from { transform: translateY(-15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUpIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+
+
+        /* NEW ANIMATIONS */
+
+        /* Subtle background gradient movement */
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Small pop effect for active states or clicks */
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Subtle pulse scaling for hover effects */
+        @keyframes pulseScale {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        /* Fade in with a slight scale up */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Rotate and scale in for a dramatic entrance */
+        @keyframes rotateIn {
+            from {
+                opacity: 0;
+                transform: rotate(-90deg) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(0deg) scale(1);
+            }
+        }
+
+        /* Text elements appearing with a slight slide from left */
+        @keyframes textAppear {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Elements popping into view with a slight overshoot */
+        /* @keyframes popIn is duplicated with logo specific. Keep the logo one as is, this is a generic one. */
+        /* I will name this `popInGeneral` to avoid conflict with the logo's `popIn` */
+        @keyframes popInGeneral {
+            0% { opacity: 0; transform: scale(0.7); }
+            80% { opacity: 1; transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Underline growing animation */
+        @keyframes underlineGrow {
+            from { width: 0; }
+            to { width: 40px; }
+        }
+
+        /* Elements sliding in from the left */
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Elements sliding in from the right */
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Subtle text pulse for interactive elements */
+        @keyframes textPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        /* Spinner rotation */
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        /* Bounce in for cart count */
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        /* Keyframes for animations that were specific to the original inline style block (retained for elements that use them) */
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 5px #ea6a21, 0 0 10px #ea6a21; } 50% { box-shadow: 0 0 20px #ea6a21, 0 0 30px #ea6a21; } 100% { box-shadow: 0 0 5px #ea6a21, 0 0 10px #ea6a21; } }
+        @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes scroll-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(-20px); }
+            10% { opacity: 1; transform: translateY(0); }
+            90% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); display: none; }
+        }
+        @keyframes buttonAdded {
+            0% { transform: scale(1); background-color: var(--color-white); color: var(--logo-primary-color); }
+            50% { transform: scale(1.05); background-color: #28a745; color: white; box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); }
+            100% { transform: scale(1); background-color: #28a745; color: white; box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); }
+        }
+
+        /* ============================================= */
+        /* 7. RESPONSIVE OVERRIDES                       */
+        /* ============================================= */
+        @media (max-width: 1024px) {
+            .menu-toggle { display: block; }
+            .header-main-content {
+                position: fixed;
+                top: 0; right: -100%; 
+                width: 320px;
+                height: 100vh;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 6rem var(--space-3) var(--space-3);
+                background: rgba(255,255,255, 0.8);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                box-shadow: -10px 0 30px rgba(0,0,0,0.1), var(--shadow-glass-inset); /* Keep inner shadow */
+                transition: right var(--transition-smooth);
+                gap: var(--space-4);
+                border-left: 1px solid var(--border-glass); /* Added border to mobile menu */
+            }
+            .header-main-content.active { right: 0; }
+            .header-search { max-width: 100%; order: 1; }
+            .header-nav-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+                order: 2;
+            }
+            .header-option {
+                flex-direction: row;
+                width: 100%;
+                padding: var(--space-2);
+                gap: var(--space-2);
+            }
+            .header-option .option-text { font-size: 1rem; }
+            .header-main-content.active .header-option:hover { transform: none; animation: none; } /* Disable some animations in mobile menu */
+            .menu-toggle.active .hamburger-bar:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .menu-toggle.active .hamburger-bar:nth-child(2) { opacity: 0; }
+            .menu-toggle.active .hamburger-bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+            .hero-section {
+                min-height: auto;
+            }
+            .hero-section .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-content {
+                padding-right: 0;
+                margin-top: var(--space-4);
+                order: 2; /* Text appears after image */
+            }
+            .hero-headline {
+                text-align: center; /* Center headline on mobile */
+            }
+            .hero-subheadline { margin-inline: auto; }
+            .hero-visual { 
+                padding-left: 0;
+                order: 1; /* Image appears first */
+                margin-bottom: var(--space-3);
+            }
+            .hero-cta-buttons { justify-content: center; }
+        }
+
+        /* 
+          =============================================================================
+          ==> FIXED: MERGED AND COMPLETED RESPONSIVE STYLES FOR SMALLER SCREENS <==
+          =============================================================================
+        */
+        @media (max-width: 768px) {
+            .hero-character-image { max-width: 80%; }
+            .floating-element.icon-4, .floating-element.shape-1 { display: none; }
+            
+            /* --- Responsive Login Card --- */
+            .login-card {
+                padding: 2rem 1.5rem;
+            }
+
+            /* --- Responsive Footer --- */
+            .footer-content {
+                flex-direction: column; /* Stack columns vertically */
+                text-align: center;
+            }
+            .footer-col h3::after {
+                left: 50%;
+                transform: translateX(-50%); /* Center the underline */
+            }
+            .footer-col ul li {
+                justify-content: center; /* Center list items like contacts */
+            }
+            .footer-col ul li i {
+                margin-right: var(--space-1); /* Adjust icon margin */
+            }
+            .social-links {
+                text-align: center; /* Ensure icons are centered */
+            }
+            .newsletter-form {
+                max-width: 320px;
+                margin-inline: auto; /* Center the form */
+            }
+
+            /* Start button adjustments (from previous inline style) */
+            .start-button {
+                bottom: 15px;
+                right: 15px;
+                padding: 10px 18px; /* Slightly smaller padding */
+                font-size: 0.9rem; /* Smaller font size */
+            }
+            #ai-character { /* From previous inline style */
+                bottom: 50px; /* Adjust if the button size changed */
+                right: 10px;
+                width: 200px; /* Smaller size for mobile */
+                height: 200px;
+            }
+        }
+        /* ============================================================================= */
+
+
+        /* --- FORM VALIDATION STYLES (from previous inline style) --- */
+        .form-group.error input {
+          border-color: #e74c3c; /* A noticeable red color */
+          box-shadow: 0 0 0 1px #e74c3c;
+        }
+
+        .error-message {
+          color: #e74c3c;
+          font-size: 0.85rem;
+          font-weight: 500;
+          margin-top: 6px;
+          animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Style for loading spinner on buttons */
+        .btn-login .fa-spinner {
+          margin-right: 8px;
+          animation: spin 1s linear infinite; /* Spinner animation */
+        }
+
+        /* ADDITIONAL STYLES THAT WERE IN ORIGINAL INLINE <STYLE> BLOCK */
+        /* These were present in the first request's HTML's <style> block and are needed for elements like start-button, flash messages, etc. */
+
+        /* Styles for start-button (already moved above in 7. RESPONSIVE OVERRIDES section) */
+        
+        /* Styles for AI character (model-viewer) (already moved above in 7. RESPONSIVE OVERRIDES section) */
+        
+        /* Marquee section styling (from previous inline style) */
+        .marquee-section { padding: 4rem 0; background: linear-gradient(to bottom, #c5c4e0, #e9e8f5); overflow: hidden; }
+        .marquee-section .container h2 { text-align: center; margin-bottom: 0.5rem; position: relative; display: inline-block; left: 50%; transform: translateX(-50%); color: #343a40; }
+        .marquee-section h2::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 60px; height: 4px; background: linear-gradient(90deg, var(--logo-accent-color), #f78c4a); border-radius: 2px; }
+        .marquee-container { width: 100%; overflow: hidden; padding: 1.5rem 0; margin-top: 2rem; position: relative; -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); }
+        .marquee-container:hover .marquee-track { animation-play-state: paused; }
+        .marquee-track { display: flex; width: fit-content; animation: scroll-left 40s linear infinite; }
+        .marquee-container.reverse .marquee-track { animation-name: scroll-right; animation-duration: 45s; }
+        .marquee-item { flex-shrink: 0; padding: 0.75rem 2rem; margin: 0 1rem; font-size: 1.1rem; font-weight: 600; color: #3f3c56; display: flex; align-items: center; gap: 0.75rem; white-space: nowrap; text-decoration: none; border-radius: 50px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, background-color 0.3s ease; }
+        .marquee-item:hover { transform: translateY(-5px) scale(1.05); background: rgba(255, 255, 255, 0.65); color: var(--logo-primary-color); }
+        .marquee-item i { color: var(--logo-accent-color); }
+
+        /* Horizontal scroll grid and buttons (from previous inline style) */
+        .product-grid.horizontal-scroll { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 1.5rem; padding: 1.5rem 0.5rem; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .product-grid.horizontal-scroll .product-card-outer { flex-shrink: 0; width: 300px; scroll-snap-align: start; }
+        .product-grid.horizontal-scroll::-webkit-scrollbar { height: 0; width: 0; }
+        .horizontal-scroll-wrapper { position: relative; margin-top: 1rem; }
+        .scroll-button { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; background-color: rgba(255, 255, 255, 0.95); border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 50%; width: 45px; height: 45px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #333; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); transition: all 0.2s ease-in-out; }
+        .scroll-button:hover { background-color: white; transform: translateY(-50%) scale(1.1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
+        .scroll-button-prev { left: -22px; }
+        .scroll-button-next { right: -22px; }
+
+        /* Flash message styling (from previous inline style) */
+        .flash-messages {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: 90%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .flash-message {
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            animation: fadeInOut 5s forwards;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .flash-message.success { background-color: #28a745; }
+        .flash-message.danger { background-color: #dc3545; }
+        .flash-message.warning { background-color: #ffc107; color: #333; }
+        .flash-message.info { background-color: #17a2b8; }
+
+        /* Chatbox styles (from previous inline style, which was from chat.css) */
         .chatbox {
             display: none; /* Hidden by default */
             position: fixed; bottom: 20px; right: 20px; width: 350px; height: 500px;
@@ -169,157 +1781,6 @@
         .mic-icon { cursor: pointer; color: #777; transition: color 0.2s ease; }
         .mic-icon.active { color: #dc3545; /* Red when active */ }
 
-        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-
-        .marquee-section { padding: 4rem 0; background: linear-gradient(to bottom, #c5c4e0, #e9e8f5); overflow: hidden; }
-        .marquee-section .container h2 { text-align: center; margin-bottom: 0.5rem; position: relative; display: inline-block; left: 50%; transform: translateX(-50%); color: #343a40; }
-        .marquee-section h2::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 60px; height: 4px; background: linear-gradient(90deg, var(--logo-accent-color), #f78c4a); border-radius: 2px; }
-        .marquee-container { width: 100%; overflow: hidden; padding: 1.5rem 0; margin-top: 2rem; position: relative; -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); }
-        .marquee-container:hover .marquee-track { animation-play-state: paused; }
-        .marquee-track { display: flex; width: fit-content; animation: scroll-left 40s linear infinite; }
-        .marquee-container.reverse .marquee-track { animation-name: scroll-right; animation-duration: 45s; }
-        .marquee-item { flex-shrink: 0; padding: 0.75rem 2rem; margin: 0 1rem; font-size: 1.1rem; font-weight: 600; color: #3f3c56; display: flex; align-items: center; gap: 0.75rem; white-space: nowrap; text-decoration: none; border-radius: 50px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, background-color 0.3s ease; }
-        .marquee-item:hover { transform: translateY(-5px) scale(1.05); background: rgba(255, 255, 255, 0.65); color: var(--logo-primary-color); }
-        .marquee-item i { color: var(--logo-accent-color); }
-
-        footer { background: var(--bg-footer); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: var(--space-4); margin: var(--space-5) 0 var(--space-2); border-radius: var(--radius-md); border-top: 1px solid var(--border-color); color: var(--color-text-muted); }
-        footer h3 { color: var(--color-white); font-weight: var(--fw-bold); margin-bottom: var(--space-2); }
-        footer a { color: var(--color-text-muted); transition: var(--transition-fast); }
-        footer a:hover { color: var(--color-white); transform: translateY(-2px); }
-        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: var(--space-4); }
-        .footer-col ul { list-style: none; padding: 0; }
-        .footer-col ul li { margin-bottom: var(--space-1); }
-        .social-links a { font-size: 1.5rem; margin-right: var(--space-2); }
-        .footer-bottom { text-align: center; padding-top: var(--space-3); border-top: 1px solid var(--border-color); font-size: var(--fs-sm); }
-
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }
-        @keyframes pulseGlow { 0% { box-shadow: 0 0 5px #ea6a21, 0 0 10px #ea6a21; } 50% { box-shadow: 0 0 20px #ea6a21, 0 0 30px #ea6a21; } 100% { box-shadow: 0 0 5px #ea6a21, 0 0 10px #ea6a21; } }
-        @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        @keyframes scroll-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-
-        /* General Product Grid Section Styles */
-        .product-grid-section { padding: 4rem 0; }
-        .product-grid-section h2 { text-align: center; margin-bottom: 2.5rem; font-size: 2.2em; position: relative; }
-        .product-grid-section h2::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80px; height: 5px; background: linear-gradient(90deg, var(--logo-primary-color), var(--logo-accent-color)); border-radius: 2px; }
-
-        /* Grid for standard product display */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px 0;
-        }
-
-        /* Styles for horizontal scrolling product section */
-        .horizontal-scroll-wrapper { position: relative; margin-top: 1rem; }
-        .product-grid.horizontal-scroll {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            gap: 1.5rem;
-            padding: 1.5rem 0.5rem;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
-        }
-        .product-grid.horizontal-scroll::-webkit-scrollbar { height: 0; width: 0; } /* Chrome, Safari */
-        .product-grid.horizontal-scroll .product-card-outer { flex-shrink: 0; width: 300px; scroll-snap-align: start; }
-        .scroll-button {
-            position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
-            background-color: rgba(255, 255, 255, 0.95); border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 50%;
-            width: 45px; height: 45px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; color: #333; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); transition: all 0.2s ease-in-out;
-        }
-        .scroll-button:hover { background-color: white; transform: translateY(-50%) scale(1.1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
-        .scroll-button-prev { left: -22px; }
-        .scroll-button-next { right: -22px; }
-
-
-        /* Product Card Styles */
-        .product-card-outer {
-            display: flex; flex-direction: column; background-color: #fff;
-            border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); transition: all 0.3s ease;
-            height: 100%; position: relative; z-index: 1;
-        }
-        .product-card-content-link {
-            text-decoration: none; color: inherit; display: flex; flex-direction: column;
-            flex-grow: 1; cursor: pointer;
-        }
-        .product-card-outer:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); }
-        .product-card-outer:hover .product-name-heading { color: var(--logo-accent-color); }
-        
-        .product-card-header {
-            height: 40px; border-top-left-radius: 11px; border-top-right-radius: 11px;
-            display: flex; align-items: center; padding: 0 1rem;
-            font-weight: 600; color: white; text-transform: capitalize;
-            font-size: 0.9em; letter-spacing: 0.5px;
-        }
-        .product-image {
-            width: 100%; height: 200px; object-fit: cover;
-            border-bottom: 1px solid #eee; border-top-left-radius: 0; border-top-right-radius: 0;
-        }
-        .card-body { padding: 1.2rem; display: flex; flex-direction: column; flex-grow: 1; }
-        .product-name-heading {
-            font-size: 1.3rem; font-weight: 600; margin-bottom: 8px;
-            color: #333; line-height: 1.3;
-        }
-        .long-description-summary {
-            font-size: 0.9em; color: #666; margin-bottom: 0.5rem; flex-grow: 1;
-            overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical; min-height: 3em; line-height: 1.5em;
-        }
-        .product-price {
-            font-size: 1.4rem; font-weight: bold; color: #007bff;
-            margin-top: 10px; margin-bottom: 0;
-        }
-        .card-actions { padding: 15px; border-top: 1px solid #eee; background-color: #f8f9fa; text-align: center; display: flex; justify-content: center; align-items: center; }
-        .card-actions .add-to-cart-btn {
-            width: 100%; padding: 12px 5px; font-size: 0.9rem; font-weight: 600;
-            border-radius: 8px; cursor: pointer; text-align: center;
-            transition: var(--transition-medium); box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border: 1px solid rgba(0, 0, 0, 0.1); position: relative; overflow: hidden;
-            text-decoration: none; display: flex; align-items: center; justify-content: center;
-            background-color: var(--color-white); color: var(--logo-primary-color);
-        }
-        .card-actions .add-to-cart-btn:hover { background-color: var(--logo-primary-color); color: var(--color-white); transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.2); border-color: var(--logo-primary-color); }
-        .card-actions .add-to-cart-btn.added { background-color: #28a745; color: white; pointer-events: none; transform: scale(1.05); box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); animation: buttonAdded 0.6s ease-out forwards; }
-        .card-actions .add-to-cart-btn.adding { background-color: #3498db; color: white; box-shadow: 0 4px 8px rgba(52, 152, 219, 0.4); transform: scale(1.02); }
-        @keyframes buttonAdded { 0% { transform: scale(1); background-color: var(--color-white); color: var(--logo-primary-color); } 50% { transform: scale(1.05); background-color: #28a745; color: white; box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); } 100% { transform: scale(1); background-color: #28a745; color: white; box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); } }
-
-        .share-container { display: flex; justify-content: center; margin-top: 10px; padding-bottom: 15px; background-color: #f8f9fa; border-top: 1px solid #eee; }
-        .universal-share-btn {
-            display: flex; align-items: center; justify-content: center; width: 48px; height: 48px;
-            border-radius: 50%; background-color: #4A90E2; color: white; font-size: 1.5rem;
-            border: none; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.25); outline: none; position: relative; overflow: hidden;
-        }
-        .universal-share-btn:hover { background-color: #357ABD; transform: translateY(-3px) scale(1.05); box-shadow: 0 6px 15px rgba(0,0,0,0.35); }
-        .universal-share-btn i { text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 15px rgba(255, 255, 255, 0.4); }
-
-        /* General Responsiveness */
-        @media (max-width: 768px) {
-            .header-main-content { margin-left: 0; flex-direction: column; align-items: flex-start; gap: 1rem; width: 100%; }
-            .header-search { width: 100%; }
-            .header-nav-actions { width: 100%; justify-content: space-around; }
-            .header-option { flex-direction: row; gap: 5px; }
-            .header-option .option-text { display: block; }
-            .menu-toggle { display: block; }
-            .hero-headline { font-size: 2.5rem; }
-            .hero-subheadline { font-size: 1rem; }
-            .hero-cta-buttons { flex-direction: column; gap: 1rem; }
-            .hero-visual { display: none; } /* Hide complex visual on mobile */
-            .floating-element { display: none; }
-            .product-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding: 10px; }
-            .product-grid.horizontal-scroll { padding-left: 1rem; padding-right: 1rem; }
-            .scroll-button-prev { left: -5px; } .scroll-button-next { right: -5px; }
-            .footer-content { grid-template-columns: 1fr; text-align: center; }
-            .start-button { bottom: 15px; right: 15px; padding: 10px 18px; font-size: 0.9rem; }
-            #ai-character { bottom: 50px; right: 10px; width: 200px; height: 200px; }
-            .chatbox { width: 90%; height: 80%; bottom: 10px; right: 5%; left: 5%; }
-        }
     </style>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 </head>
@@ -1143,6 +2604,12 @@
             alert('Voice input is not implemented in this static HTML file.');
         };
 
+        document.getElementById('shivayChatInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                document.getElementById('sendChatMsgBtn').click();
+            }
+        });
+
         document.getElementById('sendChatMsgBtn').addEventListener('click', function() {
             const chatInput = document.getElementById('shivayChatInput');
             const chatBody = document.getElementById('chatBody');
@@ -1197,37 +2664,40 @@
             };
             updateCartCount(0); // Initialize cart count to 0
 
-            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
-            addToCartButtons.forEach(button => {
-                let originalText = button.textContent;
+            // Event delegation for Add to Cart buttons
+            document.querySelectorAll('.product-grid').forEach(grid => {
+                grid.addEventListener('click', (event) => {
+                    if (event.target.classList.contains('add-to-cart-btn')) {
+                        const button = event.target;
+                        const productDbKey = button.dataset.productId;
+                        if (!productDbKey) {
+                            console.error('Product DB Key not found on add-to-cart button.');
+                            return;
+                        }
 
-                button.addEventListener('click', (event) => {
-                    const productDbKey = button.dataset.productId;
-                    if (!productDbKey) {
-                        console.error('Product DB Key not found on add-to-cart button.');
-                        return;
-                    }
+                        let originalText = button.textContent;
 
-                    button.disabled = true;
-                    button.textContent = 'Adding...';
-                    button.classList.add('adding');
+                        button.disabled = true;
+                        button.textContent = 'Adding...';
+                        button.classList.add('adding');
 
-                    // Simulate an async operation
-                    setTimeout(() => {
-                        button.classList.remove('adding');
-                        // Always simulate success in static HTML
-                        updateCartCount(parseInt(document.querySelector('.cart-count').textContent) + 1); // Increment cart count
-                        button.classList.add('added');
-                        button.textContent = 'Added!';
-                        showFlashMessage(`"${productsData[productDbKey].name}" added to cart!`, 'success');
-
+                        // Simulate an async operation
                         setTimeout(() => {
-                            button.classList.remove('added');
-                            button.textContent = originalText;
-                            button.disabled = false;
-                        }, 1500);
+                            button.classList.remove('adding');
+                            // Always simulate success in static HTML
+                            updateCartCount(parseInt(document.querySelector('.cart-count').textContent) + 1); // Increment cart count
+                            button.classList.add('added');
+                            button.textContent = 'Added!';
+                            showFlashMessage(`"${productsData[productDbKey].name}" added to cart!`, 'success');
 
-                    }, 800); // Simulate network delay
+                            setTimeout(() => {
+                                button.classList.remove('added');
+                                button.textContent = originalText;
+                                button.disabled = false;
+                            }, 1500);
+
+                        }, 800); // Simulate network delay
+                    }
                 });
             });
         });
@@ -1235,53 +2705,56 @@
 
         // --- Universal Share Button Logic (Unchanged as it uses Web Share API / Clipboard API) ---
         document.addEventListener('DOMContentLoaded', () => {
-            const shareButtons = document.querySelectorAll('.universal-share-btn');
             const flashMessagesContainer = document.getElementById('flashMessagesContainer');
 
-            shareButtons.forEach(button => {
-                button.addEventListener('click', async (event) => {
-                    const title = button.dataset.title;
-                    const text = button.dataset.text;
-                    const url = window.location.href; // Use current page URL for sharing, since product_detail links are not real in static HTML
+            // Event delegation for Share buttons
+            document.querySelectorAll('.product-grid').forEach(grid => {
+                grid.addEventListener('click', async (event) => {
+                    if (event.target.closest('.universal-share-btn')) {
+                        const button = event.target.closest('.universal-share-btn');
+                        const title = button.dataset.title;
+                        const text = button.dataset.text;
+                        const url = window.location.href; // Use current page URL for sharing, since product_detail links are not real in static HTML
 
-                    if (navigator.share) {
-                        try {
-                            await navigator.share({
-                                title: title,
-                                text: text,
-                                url: url
-                            });
-                            console.log('Content shared successfully');
-                        } catch (error) {
-                            if (error.name !== 'AbortError') {
-                                console.error('Error sharing content:', error);
-                                // Show a flash message for error
-                                const errorMessage = document.createElement('div');
-                                errorMessage.classList.add('flash-message', 'danger');
-                                errorMessage.textContent = 'Could not share. Please try again.';
-                                flashMessagesContainer.appendChild(errorMessage);
-                                setTimeout(() => errorMessage.remove(), 5000);
+                        if (navigator.share) {
+                            try {
+                                await navigator.share({
+                                    title: title,
+                                    text: text,
+                                    url: url
+                                });
+                                console.log('Content shared successfully');
+                            } catch (error) {
+                                if (error.name !== 'AbortError') {
+                                    console.error('Error sharing content:', error);
+                                    // Show a flash message for error
+                                    const errorMessage = document.createElement('div');
+                                    errorMessage.classList.add('flash-message', 'danger');
+                                    errorMessage.textContent = 'Could not share. Please try again.';
+                                    flashMessagesContainer.appendChild(errorMessage);
+                                    setTimeout(() => errorMessage.remove(), 5000);
+                                }
                             }
-                        }
-                    } else {
-                        // Fallback for browsers that do not support the Web Share API
-                        try {
-                            await navigator.clipboard.writeText(url);
-                            const copiedMessage = document.createElement('div');
-                            copiedMessage.classList.add('flash-message', 'info');
-                            copiedMessage.textContent = 'Link copied to clipboard!';
-                            flashMessagesContainer.appendChild(copiedMessage);
-                            setTimeout(() => {
-                                copiedMessage.remove();
-                            }, 5000);
-                            console.log('URL copied to clipboard:', url);
-                        } catch (err) {
-                            console.error('Failed to copy to clipboard: ', err);
-                            const copyErrorMessage = document.createElement('div');
-                            copyErrorMessage.classList.add('flash-message', 'danger');
-                            copyErrorMessage.textContent = 'Could not copy link to clipboard. Please copy it manually: ' + url;
-                            flashMessagesContainer.appendChild(copyErrorMessage);
-                            setTimeout(() => copyErrorMessage.remove(), 5000);
+                        } else {
+                            // Fallback for browsers that do not support the Web Share API
+                            try {
+                                await navigator.clipboard.writeText(url);
+                                const copiedMessage = document.createElement('div');
+                                copiedMessage.classList.add('flash-message', 'info');
+                                copiedMessage.textContent = 'Link copied to clipboard!';
+                                flashMessagesContainer.appendChild(copiedMessage);
+                                setTimeout(() => {
+                                    copiedMessage.remove();
+                                }, 5000);
+                                console.log('URL copied to clipboard:', url);
+                            } catch (err) {
+                                console.error('Failed to copy to clipboard: ', err);
+                                const copyErrorMessage = document.createElement('div');
+                                copyErrorMessage.classList.add('flash-message', 'danger');
+                                copyErrorMessage.textContent = 'Could not copy link to clipboard. Please copy it manually: ' + url;
+                                flashMessagesContainer.appendChild(copyErrorMessage);
+                                setTimeout(() => copyErrorMessage.remove(), 5000);
+                            }
                         }
                     }
                 });
@@ -1290,4 +2763,3 @@
     </script>
 </body>
 </html>
-```
